@@ -29,7 +29,7 @@ jobs:
       - name: Create CSS
         run: |
           mkdir -p css
-          cat > css/styles.css << EOF
+          cat > css/styles.css <<EOF
 body { font-family: Arial, sans-serif; background-color: #f0f8ff; }
 h1 { color: #0275d8; text-align: center; }
 p { font-size: 1.2em; margin: 10px 20px; }
@@ -37,7 +37,7 @@ EOF
 
       - name: Create index.html
         run: |
-          cat > index.html << EOF
+          cat > index.html <<EOF
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -61,7 +61,7 @@ EOF
       - name: Create lessons JSON
         run: |
           mkdir -p lessons/grade1
-          cat > lessons/grade1/lesson1.json << EOF
+          cat > lessons/grade1/lesson1.json <<EOF
 {
   "id": "grade1_lesson1",
   "title": "אותיות A-C",
