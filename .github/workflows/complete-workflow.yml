@@ -1,4 +1,4 @@
-name: ABC English Explorer - Production Deploy
+name: ABC English Explorer - Final Deploy
 
 on:
   workflow_dispatch:
@@ -29,26 +29,26 @@ jobs:
 
       - name: Create Folders
         run: |
-          mkdir -p assets/{images,icons,sounds}
-          mkdir -p lessons/grade{1..6}
-          mkdir -p {css,js,components,games}
+          mkdir -p assets/images assets/icons assets/sounds
+          mkdir -p lessons/grade1 lessons/grade2 lessons/grade3 lessons/grade4 lessons/grade5 lessons/grade6
+          mkdir -p css js components games
 
-      - name: Generate HTML
+      - name: Generate HTML File
         run: |
-          cat > index.html <<'HTMLEOF'
+          cat > index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ABC English Explorer - פלטפורמה חינוכית חינמית">
+<meta name="description" content="ABC English Explorer - פלטפורמה חינוכית">
 <meta name="theme-color" content="#4FC3F7">
 <link rel="manifest" href="manifest.json">
 <title>🤖 ABC English Explorer</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #4FC3F7 0%, #29B6F6 100%);
   min-height: 100vh; color: white; direction: rtl;
 }
@@ -112,148 +112,26 @@ h1 { font-size: 2.5rem; margin: 1rem 0; }
   </div>
 
   <div class="stats">
-    <div class="stat-card"><span class="stat-number">192</span><span>יחידות לימוד</span></div>
-    <div class="stat-card"><span class="stat-number">25+</span><span>משחקים</span></div>
-    <div class="stat-card"><span class="stat-number">100%</span><span>חינמי</span></div>
-    <div class="stat-card"><span class="stat-number">PWA</span><span>אפליקציה</span></div>
+    <div class="stat-card">
+      <span class="stat-number">192</span>
+      <span>יחידות לימוד</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">25+</span>
+      <span>משחקים</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">100%</span>
+      <span>חינמי</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">PWA</span>
+      <span>אפליקציה</span>
+    </div>
   </div>
 
   <div class="features">
     <h2 style="text-align: center; margin-bottom: 1rem;">🎯 מה מיוחד באתר?</h2>
     <div class="feature-grid">
       <div class="feature-card">
-        <div class="feature-icon">🎮</div>
-        <h3>משחקים אינטראקטיביים</h3>
-        <p>זיכרון, בינגו, התאמות ועוד</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎤</div>
-        <h3>קריינות מובנית</h3>
-        <p>הקשבה ודיבור לכל מילה</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">👤</div>
-        <h3>אווטאר אישי</h3>
-        <p>התפתחות ומוטיבציה</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>מעקב התקדמות</h3>
-        <p>דוחות להורים ומורים</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">♿</div>
-        <h3>נגישות מלאה</h3>
-        <p>לכל הילדים ללא יוצא מן הכלל</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🌐</div>
-        <h3>עובד בכל מקום</h3>
-        <p>אונליין ואופליין</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="grade-buttons">
-    <button class="grade-btn" onclick="alert('כיתה א - בקרוב!')">כיתה א׳</button>
-    <button class="grade-btn" onclick="alert('כיתה ב - בקרוב!')">כיתה ב׳</button>
-    <button class="grade-btn" onclick="alert('כיתה ג - בקרוב!')">כיתה ג׳</button>
-    <button class="grade-btn" onclick="alert('כיתה ד - בקרוב!')">כיתה ד׳</button>
-    <button class="grade-btn" onclick="alert('כיתה ה - בקרוב!')">כיתה ה׳</button>
-    <button class="grade-btn" onclick="alert('כיתה ו - בקרוב!')">כיתה ו׳</button>
-  </div>
-
-  <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 15px;">
-    <h3>🚀 האתר בשלבי פיתוח מתקדמים</h3>
-    <p>פלטפורמה מהפכנית עם AI, PWA מלא, ונגישות לכל ילד בישראל</p>
-    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">נבנה במיוחד לילדי הפריפריה ולשוויון חינוכי</p>
-  </div>
-</div>
-
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-    .then(() => console.log('SW registered'))
-    .catch(err => console.log('SW failed'));
-}
-</script>
-</body>
-</html>
-HTMLEOF
-
-      - name: Create PWA Files
-        run: |
-          cat > manifest.json <<'JSONEOF'
-{
-  "name": "ABC English Explorer",
-  "short_name": "ABC Explorer", 
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#4FC3F7",
-  "theme_color": "#4FC3F7",
-  "icons": [{
-    "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%234FC3F7' rx='35'/><text x='96' y='135' font-size='110' text-anchor='middle' fill='white'>🤖</text></svg>",
-    "sizes": "192x192",
-    "type": "image/svg+xml"
-  }]
-}
-JSONEOF
-
-          cat > sw.js <<'JSEOF'
-const CACHE_NAME = 'abc-v1';
-const urlsToCache = ['/', '/index.html', '/manifest.json'];
-
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
-  );
-});
-
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => 
-      response || fetch(event.request)
-    )
-  );
-});
-JSEOF
-
-      - name: Create Sample Lessons
-        run: |
-          cat > lessons/grade1/lesson1.json <<'LESSONEOF'
-{
-  "id": "grade1_lesson1",
-  "title": "אותיות A-C",
-  "vocabulary": [
-    {"word": "Apple", "hebrew": "תפוח"},
-    {"word": "Ball", "hebrew": "כדור"}, 
-    {"word": "Cat", "hebrew": "חתול"}
-  ]
-}
-LESSONEOF
-
-      - name: Deploy Setup
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "🚀 ABC English Explorer - Complete Platform Launch" || exit 0
-          git push
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-
-      - name: Deploy Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - name: Success Message
-        run: |
-          echo "🎉 ABC English Explorer is LIVE!"
-          echo "🌐 URL: ${{ steps.deployment.outputs.page_url }}"
-          echo "
+        <div class="feature-
