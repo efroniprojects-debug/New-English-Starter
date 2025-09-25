@@ -1,1 +1,28 @@
-{"name": "ABC English Explorer", "short_name": "ABC Explorer", "start_url": "/", "display": "standalone", "background_color": "#4FC3F7", "theme_color": "#4FC3F7"}
+{
+  "name": "ABC English Explorer - Professional Edition",
+  "short_name": "ABC Explorer Pro",
+  "description": "פלטפורמה חינוכית מקצועית עם לוגו אישי לילדי ישראל",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#4FC3F7",
+  "theme_color": "#4FC3F7",
+  "lang": "he",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "./icon-192-round.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "./icon-512-round.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "./logo.jpg",
+      "sizes": "any",
+      "type": "image/jpeg"
+    }
+  ]
+}
