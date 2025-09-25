@@ -1,4 +1,4 @@
-name: ABC English Explorer - Final Deploy
+name: ABC English Explorer - Perfect Deploy
 
 on:
   workflow_dispatch:
@@ -23,7 +23,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Clean Repository  
+      - name: Clean Repository
         run: |
           find . -mindepth 1 -maxdepth 1 ! -name '.git' ! -name '.github' -exec rm -rf {} +
 
@@ -35,15 +35,12 @@ jobs:
 
       - name: Generate HTML File
         run: |
-          cat > index.html << 'EOF'
+          cat > index.html <<'HTMLEOF'
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ABC English Explorer - פלטפורמה חינוכית">
-<meta name="theme-color" content="#4FC3F7">
-<link rel="manifest" href="manifest.json">
 <title>🤖 ABC English Explorer</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -86,20 +83,6 @@ h1 { font-size: 2.5rem; margin: 1rem 0; }
 .grade-btn:hover {
   background: rgba(255,255,255,0.3); transform: translateY(-2px);
 }
-.features { margin: 2rem 0; }
-.feature-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-}
-.feature-card {
-  background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px;
-}
-.feature-icon { font-size: 2rem; margin-bottom: 1rem; }
-@media (max-width: 768px) {
-  .container { padding: 1rem; }
-  .robot { font-size: 3rem; }
-  h1 { font-size: 2rem; }
-}
 </style>
 </head>
 <body>
@@ -130,42 +113,6 @@ h1 { font-size: 2.5rem; margin: 1rem 0; }
     </div>
   </div>
 
-  <div class="features">
-    <h2 style="text-align: center; margin-bottom: 1rem;">🎯 מה מיוחד באתר?</h2>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🎮</div>
-        <h3>משחקים אינטראקטיביים</h3>
-        <p>זיכרון, בינגו, התאמות ועוד</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎤</div>
-        <h3>קריינות מובנית</h3>
-        <p>הקשבה ודיבור לכל מילה</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">👤</div>
-        <h3>אווטאר אישי</h3>
-        <p>התפתחות ומוטיבציה</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>מעקב התקדמות</h3>
-        <p>דוחות להורים ומורים</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">♿</div>
-        <h3>נגישות מלאה</h3>
-        <p>לכל הילדים ללא יוצא מן הכלל</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🌐</div>
-        <h3>עובד בכל מקום</h3>
-        <p>אונליין ואופליין</p>
-      </div>
-    </div>
-  </div>
-
   <div class="grade-buttons">
     <button class="grade-btn" onclick="alert('כיתה א - בקרוב!')">כיתה א׳</button>
     <button class="grade-btn" onclick="alert('כיתה ב - בקרוב!')">כיתה ב׳</button>
@@ -178,44 +125,28 @@ h1 { font-size: 2.5rem; margin: 1rem 0; }
   <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 15px;">
     <h3>🚀 האתר בשלבי פיתוח מתקדמים</h3>
     <p>פלטפורמה מהפכנית עם AI, PWA מלא, ונגישות לכל ילד בישראל</p>
-    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">נבנה במיוחד לילדי הפריפריה ולשוויון חינוכי</p>
   </div>
 </div>
-
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-    .then(() => console.log('SW registered'))
-    .catch(err => console.log('SW failed'));
-}
-</script>
 </body>
 </html>
-EOF
+HTMLEOF
 
-      - name: Create Manifest
+      - name: Create PWA Manifest
         run: |
-          cat > manifest.json << 'EOF'
+          cat > manifest.json <<'JSONEOF'
 {
   "name": "ABC English Explorer",
   "short_name": "ABC Explorer", 
   "start_url": "/",
   "display": "standalone",
   "background_color": "#4FC3F7",
-  "theme_color": "#4FC3F7",
-  "icons": [
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%234FC3F7' rx='35'/><text x='96' y='135' font-size='110' text-anchor='middle' fill='white'>🤖</text></svg>",
-      "sizes": "192x192",
-      "type": "image/svg+xml"
-    }
-  ]
+  "theme_color": "#4FC3F7"
 }
-EOF
+JSONEOF
 
       - name: Create Service Worker
         run: |
-          cat > sw.js << 'EOF'
+          cat > sw.js <<'JSEOF'
 const CACHE_NAME = 'abc-v1';
 const urlsToCache = ['/', '/index.html', '/manifest.json'];
 
@@ -232,11 +163,11 @@ self.addEventListener('fetch', event => {
     )
   );
 });
-EOF
+JSEOF
 
-      - name: Create Sample Lesson
+      - name: Create Sample Data
         run: |
-          cat > lessons/grade1/lesson1.json << 'EOF'
+          cat > lessons/grade1/lesson1.json <<'DATAEOF'
 {
   "id": "grade1_lesson1",
   "title": "אותיות A-C",
@@ -246,9 +177,9 @@ EOF
     {"word": "Cat", "hebrew": "חתול"}
   ]
 }
-EOF
+DATAEOF
 
-      - name: Commit Files
+      - name: Commit All Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -256,19 +187,19 @@ EOF
           git commit -m "🚀 ABC English Explorer Launch" || exit 0
           git push
 
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload Pages
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
-      - name: Deploy Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Success
+      - name: Success Message
         run: |
           echo "🎉 ABC English Explorer is LIVE!"
           echo "🌐 URL: ${{ steps.deployment.outputs.page_url }}"
