@@ -1,4 +1,4 @@
-name: ABC English Explorer - Complete Workflow
+name: ABC English Explorer - Final Workflow
 
 on:
   workflow_dispatch:
@@ -12,12 +12,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create assets/images with logo
+      - name: Create assets folders and logo
         run: |
           mkdir -p assets/images
-          curl -o assets/images/logo.jpg https://raw.githubusercontent.com/efroniprojects-debug/New-English-Starter/main/logo.jpg || echo "Logo not downloaded"
+          curl -o assets/images/logo.jpg https://raw.githubusercontent.com/efroniprojects-debug/New-English-Starter/main/logo.jpg || echo "Logo not found"
 
-      - name: Create CSS file
+      - name: Create CSS styles
         run: |
           mkdir -p css
           cat > css/styles.css <<EOF
@@ -43,34 +43,16 @@ EOF
     <h1>ברוכים הבאים ל-ABC English Explorer</h1>
   </header>
   <main>
-    <p>פרויקט מתקדם ללימוד אנגלית עם עיצוב וקבצי שיעור התחלתיים.</p>
+    <p>פרויקט מתקדם ללימוד אנגלית עם תוכן ראשון ומשחקי אינטראקציה.</p>
   </main>
 </body>
 </html>
 EOF
 
-      - name: Create lessons (JSON)
-        run: |
-          mkdir -p lessons/grade1
-          cat > lessons/grade1/lesson1.json <<EOF
-{
-  "id": "grade1_lesson1",
-  "title": "האותיות הראשונות",
-  "words": ["Apple", "Ball", "Cat"]
-}
-EOF
-          cat > lessons/grade1/lesson2.json <<EOF
-{
-  "id": "grade1_lesson2",
-  "title": "DEF - ממשיכים ללמוד",
-  "words": ["Dog", "Egg", "Fish"]
-}
-EOF
-
-      - name: Commit & Push All
+      - name: Commit and push changes
         run: |
           git config user.email "bot@example.com"
           git config user.name "Bot"
-          git add .
-          git commit -m "🚀 Add logo, css, index.html and lessons"
+          git add index.html css/styles.css assets/images/logo.jpg
+          git commit -m "Add index.html, styles and logo"
           git push
