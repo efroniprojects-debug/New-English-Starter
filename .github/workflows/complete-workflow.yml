@@ -1,4 +1,4 @@
-name: ABC English Explorer - Echo Method Deploy
+name: ABC English Explorer - Advanced Features Update
 
 on:
   workflow_dispatch:
@@ -6,148 +6,200 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  upgrade-platform:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Clean Repository
-        run: find . -mindepth 1 -maxdepth 1 ! -name '.git' ! -name '.github' -exec rm -rf {} +
-
-      - name: Create Structure
+      - name: Add Advanced Interactive Features
         run: |
-          mkdir -p assets/{images,icons,sounds}
-          mkdir -p lessons/grade{1..6}
-          mkdir -p {css,js,components,games}
-
-      - name: Create HTML Header
-        run: |
-          echo '<!DOCTYPE html>' > index.html
-          echo '<html lang="he" dir="rtl">' >> index.html
-          echo '<head>' >> index.html
-          echo '<meta charset="UTF-8">' >> index.html
-          echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">' >> index.html
-          echo '<title>🤖 ABC English Explorer</title>' >> index.html
-
-      - name: Add CSS Styles
-        run: |
-          echo '<style>' >> index.html
-          echo 'body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; margin: 0; padding: 20px; text-align: center; }' >> index.html
-          echo '.container { max-width: 1000px; margin: 0 auto; }' >> index.html
-          echo '.header { background: rgba(255,255,255,0.1); padding: 40px; border-radius: 20px; margin-bottom: 30px; }' >> index.html
-          echo '.robot { font-size: 80px; margin-bottom: 20px; animation: bounce 2s infinite; }' >> index.html
-          echo 'h1 { font-size: 50px; margin: 20px 0; }' >> index.html
-          echo '.subtitle { font-size: 20px; opacity: 0.9; margin-bottom: 30px; }' >> index.html
-          echo '.stats { display: flex; gap: 20px; margin: 30px 0; flex-wrap: wrap; }' >> index.html
-          echo '.stat { background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px; flex: 1; min-width: 200px; }' >> index.html
-          echo '.stat-number { font-size: 30px; font-weight: bold; display: block; margin-bottom: 10px; }' >> index.html
-          echo '.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0; }' >> index.html
-          echo '.feature { background: rgba(255,255,255,0.12); padding: 25px; border-radius: 15px; transition: transform 0.3s; }' >> index.html
-          echo '.feature:hover { transform: translateY(-5px); }' >> index.html
-          echo '.feature-icon { font-size: 40px; margin-bottom: 15px; }' >> index.html
-          echo '.grade-section { background: rgba(255,255,255,0.15); padding: 30px; border-radius: 20px; margin: 30px 0; }' >> index.html
-          echo '.grade-buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }' >> index.html
-          echo '.grade-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 15px 20px; border-radius: 10px; font-size: 16px; cursor: pointer; transition: all 0.3s; }' >> index.html
-          echo '.grade-btn:hover { background: rgba(255,255,255,0.35); transform: translateY(-3px); }' >> index.html
-          echo '.status { background: #4CAF50; padding: 20px; border-radius: 15px; margin: 20px 0; }' >> index.html
-          echo '@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }' >> index.html
-          echo '@media (max-width: 768px) { .robot { font-size: 60px; } h1 { font-size: 35px; } .stats { flex-direction: column; } .features { grid-template-columns: 1fr; } }' >> index.html
-          echo '</style>' >> index.html
-          echo '</head>' >> index.html
-
-      - name: Add HTML Body
-        run: |
-          echo '<body>' >> index.html
-          echo '<div class="container">' >> index.html
-          echo '<div class="header">' >> index.html
-          echo '<div class="robot">🤖</div>' >> index.html
-          echo '<h1>ABC English Explorer</h1>' >> index.html
-          echo '<p class="subtitle">פלטפורמה חינוכית מהפכנית ללימוד אנגלית</p>' >> index.html
-          echo '<div class="status">' >> index.html
-          echo '<h3>🚀 המערכת פעילה ומוכנה לשימוש!</h3>' >> index.html
-          echo '<p>192 יחידות לימוד • PWA מלא • חינמי לחלוטין</p>' >> index.html
+          echo "🚀 Adding interactive lessons system..."
+          
+          echo '<div class="lessons-section fade-in" style="margin: 3rem 0;">' >> index.html
+          echo '<h2 style="text-align: center; margin-bottom: 2rem;">📚 שיעורים אינטראקטיביים</h2>' >> index.html
+          echo '<div class="lessons-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">' >> index.html
+          
+          # Add 5 interactive lesson cards
+          for i in {1..5}; do
+            echo '<div class="lesson-card" style="background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; cursor: pointer; transition: all 0.3s;" onclick="startLesson('$i')">' >> index.html
+            echo '<div style="font-size: 3rem; margin-bottom: 1rem;">📖</div>' >> index.html
+            echo '<h3>שיעור '$i'</h3>' >> index.html
+            echo '<p>יחידת לימוד אינטראקטיבית עם משחקים</p>' >> index.html
+            echo '<div class="progress-bar" style="background: rgba(255,255,255,0.2); height: 8px; border-radius: 4px; margin-top: 1rem;"><div style="background: #4CAF50; height: 100%; width: '$((i*20))'%; border-radius: 4px;"></div></div>' >> index.html
+            echo '</div>' >> index.html
+          done
+          
           echo '</div></div>' >> index.html
 
-      - name: Add Statistics
+      - name: Add Interactive Games Section
         run: |
-          echo '<div class="stats">' >> index.html
-          echo '<div class="stat"><span class="stat-number">192</span><span>יחידות לימוד</span></div>' >> index.html
-          echo '<div class="stat"><span class="stat-number">25+</span><span>משחקים</span></div>' >> index.html
-          echo '<div class="stat"><span class="stat-number">100%</span><span>חינמי</span></div>' >> index.html
-          echo '<div class="stat"><span class="stat-number">AI</span><span>מנטור חכם</span></div>' >> index.html
+          echo "🎮 Adding games section..."
+          
+          echo '<div class="games-section fade-in" style="margin: 3rem 0;">' >> index.html
+          echo '<h2 style="text-align: center; margin-bottom: 2rem;">🎮 משחקים אינטראקטיביים</h2>' >> index.html
+          echo '<div class="games-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">' >> index.html
+          
+          # Memory Game
+          echo '<div class="game-card" style="background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer;" onclick="playMemoryGame()">' >> index.html
+          echo '<div style="font-size: 4rem; margin-bottom: 1rem;">🧠</div>' >> index.html
+          echo '<h3>משחק זיכרון</h3>' >> index.html
+          echo '<p>מצא את הזוגות המתאימים</p>' >> index.html
           echo '</div>' >> index.html
-
-      - name: Add Features
-        run: |
-          echo '<div class="features">' >> index.html
-          echo '<div class="feature"><div class="feature-icon">🎯</div><h3>למידה מותאמת אישית</h3><p>בינה מלאכותית מתאימה את הקושי לכל ילד</p></div>' >> index.html
-          echo '<div class="feature"><div class="feature-icon">🎮</div><h3>משחקים אינטראקטיביים</h3><p>זיכרון, בינגו, התאמות ועוד</p></div>' >> index.html
-          echo '<div class="feature"><div class="feature-icon">🎤</div><h3>קריינות מובנית</h3><p>הקשבה ודיבור לכל מילה ומשפט</p></div>' >> index.html
-          echo '<div class="feature"><div class="feature-icon">👤</div><h3>אווטאר מתפתח</h3><p>דמות אישית שגדלה עם הילד</p></div>' >> index.html
-          echo '<div class="feature"><div class="feature-icon">📊</div><h3>מעקב התקדמות</h3><p>דוחות מפורטים להורים ומורים</p></div>' >> index.html
-          echo '<div class="feature"><div class="feature-icon">♿</div><h3>נגישות מלאה</h3><p>מותאם לכל הילדים ללא יוצא מן הכלל</p></div>' >> index.html
+          
+          # Word Matching
+          echo '<div class="game-card" style="background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer;" onclick="playWordMatching()">' >> index.html
+          echo '<div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>' >> index.html
+          echo '<h3>התאמת מילים</h3>' >> index.html
+          echo '<p>התאם מילים לתמונות</p>' >> index.html
           echo '</div>' >> index.html
-
-      - name: Add Grade Selection
-        run: |
-          echo '<div class="grade-section">' >> index.html
-          echo '<h2>🎯 בחר את הכיתה שלך</h2>' >> index.html
-          echo '<p>כל כיתה מכילה 32 יחידות לימוד מותאמות גיל</p>' >> index.html
-          echo '<div class="grade-buttons">' >> index.html
-          echo '<button class="grade-btn" onclick="alert('\''כיתה א - 32 יחידות בסיסיות!'\'')">כיתה א</button>' >> index.html
-          echo '<button class="grade-btn" onclick="alert('\''כיתה ב - 32 יחידות מעניינות!'\'')">כיתה ב</button>' >> index.html
-          echo '<button class="grade-btn" onclick="alert('\''כיתה ג - 32 יחידות מרתקות!'\'')">כיתה ג</button>' >> index.html
-          echo '<button class="grade-btn" onclick="alert('\''כיתה ד - 32 יחידות מאתגרות!'\'')">כיתה ד</button>' >> index.html
-          echo '<button class="grade-btn" onclick="alert('\''כיתה ה - 32 יחידות מקצועיות!'\'')">כיתה ה</button>' >> index.html
-          echo '<button class="grade-btn" onclick="alert('\''כיתה ו - 32 יחידות מתקדמות!'\'')">כיתה ו</button>' >> index.html
+          
+          # Spelling Game
+          echo '<div class="game-card" style="background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer;" onclick="playSpelling()">' >> index.html
+          echo '<div style="font-size: 4rem; margin-bottom: 1rem;">✍️</div>' >> index.html
+          echo '<h3>משחק איות</h3>' >> index.html
+          echo '<p>כתוב את המילה הנכונה</p>' >> index.html
+          echo '</div>' >> index.html
+          
+          # Listening Game
+          echo '<div class="game-card" style="background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer;" onclick="playListening()">' >> index.html
+          echo '<div style="font-size: 4rem; margin-bottom: 1rem;">👂</div>' >> index.html
+          echo '<h3>משחק הקשבה</h3>' >> index.html
+          echo '<p>שמע וזהה את המילה</p>' >> index.html
+          echo '</div>' >> index.html
+          
           echo '</div></div>' >> index.html
 
-      - name: Add Footer and Script
+      - name: Add Progress Tracking System
         run: |
-          echo '<div style="background: rgba(0,0,0,0.2); padding: 30px; border-radius: 15px; margin-top: 40px;">' >> index.html
-          echo '<h3>🤖 ABC English Explorer</h3>' >> index.html
-          echo '<p>פלטפורמה חינוכית חינמית עם בינה מלאכותית לילדי ישראל</p>' >> index.html
-          echo '<p style="margin-top: 15px; opacity: 0.8;">נבנה עם ❤️ לשוויון חינוכי ונגישות לכולם</p>' >> index.html
+          echo "📊 Adding progress tracking..."
+          
+          echo '<div class="progress-section fade-in" style="margin: 3rem 0; background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 20px;">' >> index.html
+          echo '<h2 style="text-align: center; margin-bottom: 2rem;">📊 ההתקדמות שלי</h2>' >> index.html
+          echo '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">' >> index.html
+          
+          # Progress circles
+          echo '<div style="text-align: center;">' >> index.html
+          echo '<div class="progress-circle" style="width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(#4CAF50 65%, rgba(255,255,255,0.2) 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">' >> index.html
+          echo '<div style="width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #333; font-weight: bold;">65%</div>' >> index.html
+          echo '</div>' >> index.html
+          echo '<p><strong>שיעורים הושלמו</strong></p>' >> index.html
+          echo '</div>' >> index.html
+          
+          echo '<div style="text-align: center;">' >> index.html
+          echo '<div style="font-size: 3rem; margin-bottom: 1rem;">⭐</div>' >> index.html
+          echo '<div style="font-size: 2rem; font-weight: bold; margin-bottom: 0.5rem;">1,250</div>' >> index.html
+          echo '<p><strong>נקודות</strong></p>' >> index.html
+          echo '</div>' >> index.html
+          
+          echo '<div style="text-align: center;">' >> index.html
+          echo '<div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>' >> index.html
+          echo '<div style="font-size: 2rem; font-weight: bold; margin-bottom: 0.5rem;">12</div>' >> index.html
+          echo '<p><strong>הישגים</strong></p>' >> index.html
+          echo '</div>' >> index.html
+          
+          echo '<div style="text-align: center;">' >> index.html
+          echo '<div style="font-size: 3rem; margin-bottom: 1rem;">🔥</div>' >> index.html
+          echo '<div style="font-size: 2rem; font-weight: bold; margin-bottom: 0.5rem;">7</div>' >> index.html
+          echo '<p><strong>ימים רצופים</strong></p>' >> index.html
+          echo '</div>' >> index.html
+          
           echo '</div></div>' >> index.html
-          echo '<script>' >> index.html
-          echo 'if ("serviceWorker" in navigator) {' >> index.html
-          echo 'navigator.serviceWorker.register("/sw.js").then(() => console.log("SW registered"));' >> index.html
-          echo '}' >> index.html
-          echo 'console.log("🤖 ABC English Explorer מוכן לשימוש!");' >> index.html
-          echo '</script>' >> index.html
-          echo '</body></html>' >> index.html
 
-      - name: Create PWA Files
+      - name: Add Advanced JavaScript Functions
         run: |
-          echo '{"name": "ABC English Explorer", "short_name": "ABC Explorer", "start_url": "/", "display": "standalone", "background_color": "#4FC3F7", "theme_color": "#4FC3F7"}' > manifest.json
-          echo 'const CACHE_NAME = "abc-v1"; const urlsToCache = ["/", "/index.html"]; self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))); }); self.addEventListener("fetch", e => { e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))); });' > sw.js
-
-      - name: Create Sample Data
-        run: |
-          echo '{"id": "grade1_lesson1", "title": "אותיות A-C", "vocabulary": [{"word": "Apple", "hebrew": "תפוח"}, {"word": "Ball", "hebrew": "כדור"}, {"word": "Cat", "hebrew": "חתול"}]}' > lessons/grade1/lesson1.json
-
-      - name: Enable GitHub Pages
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/pages" \
-            -d '{"source":{"branch":"main"}}' || echo "Pages might already be enabled"
-
-      - name: Commit Changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git commit -m "🚀 ABC English Explorer - Echo Method Deploy" || exit 0
-          git push
-
-      - name: Success
-        run: |
-          echo "🎉 ABC English Explorer הושק בהצלחה!"
-          echo "🌐 זמין בכתובת:"
-          echo "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+          echo "⚡ Adding advanced JavaScript functionality..."
+          
+          # Remove closing script and body tags temporarily
+          sed -i '$ d' index.html  # Remove last line
+          sed -i '$ d' index.html  # Remove second to last line
+          sed -i '$ d' index.html  # Remove script closing tag
+          
+          echo "" >> index.html
+          echo "// Advanced Interactive Functions" >> index.html
+          echo "function startLesson(lessonNum) {" >> index.html
+          echo "  showModal('🚀 שיעור ' + lessonNum, 'שיעור אינטראקטיבי עם ' + (lessonNum * 8) + ' מילים חדשות!<br>מוכן להתחיל?', () => {" >> index.html
+          echo "    playSound('success');" >> index.html
+          echo "    showAdvancedNotification('שיעור ' + lessonNum + ' התחיל!', 'success');" >> index.html
+          echo "  });" >> index.html
+          echo "}" >> index.html
+          echo "" >> index.html
+          
+          echo "// Game Functions" >> index.html
+          echo "function playMemoryGame() {" >> index.html
+          echo "  showModal('🧠 משחק זיכרון', 'מצא את כל הזוגות!<br>16 כרטיסיות עם 8 זוגות', () => {" >> index.html
+          echo "    playSound('game-start');" >> index.html
+          echo "    showAdvancedNotification('משחק זיכרון התחיל!', 'info');" >> index.html
+          echo "  });" >> index.html
+          echo "}" >> index.html
+          echo "" >> index.html
+          
+          echo "function playWordMatching() {" >> index.html
+          echo "  showModal('🎯 התאמת מילים', 'גרור מילים לתמונות המתאימות!', () => {" >> index.html
+          echo "    playSound('game-start');" >> index.html
+          echo "    showAdvancedNotification('משחק התאמות התחיל!', 'info');" >> index.html
+          echo "  });" >> index.html
+          echo "}" >> index.html
+          echo "" >> index.html
+          
+          echo "function playSpelling() {" >> index.html
+          echo "  showModal('✍️ משחק איות', 'כתוב את המילה הנכונה!<br>10 מילים לאיות', () => {" >> index.html
+          echo "    playSound('game-start');" >> index.html
+          echo "    showAdvancedNotification('משחק איות התחיל!', 'info');" >> index.html
+          echo "  });" >> index.html
+          echo "}" >> index.html
+          echo "" >> index.html
+          
+          echo "function playListening() {" >> index.html
+          echo "  showModal('👂 משחק הקשבה', 'שמע את המילה ובחר את התמונה הנכונה!', () => {" >> index.html
+          echo "    playSound('game-start');" >> index.html
+          echo "    showAdvancedNotification('משחק הקשבה התחיל!', 'info');" >> index.html
+          echo "  });" >> index.html
+          echo "}" >> index.html
+          echo "" >> index.html
+          
+          # Advanced Modal System
+          echo "// Advanced Modal System" >> index.html
+          echo "function showModal(title, content, onConfirm) {" >> index.html
+          echo "  const modal = document.createElement('div');" >> index.html
+          echo "  modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.3s;';" >> index.html
+          echo "  modal.innerHTML = \`<div style='background: linear-gradient(135deg, #4FC3F7, #29B6F6); padding: 2rem; border-radius: 20px; max-width: 400px; text-align: center; color: white; animation: slideIn 0.3s;'><h2 style='margin-bottom: 1rem;'>\${title}</h2><p style='margin-bottom: 2rem; line-height: 1.5;'>\${content}</p><div style='display: flex; gap: 1rem; justify-content: center;'><button onclick='closeModal()' style='padding: 0.75rem 1.5rem; background: rgba(255,255,255,0.2); border: none; border-radius: 10px; color: white; cursor: pointer;'>ביטול</button><button onclick='confirmModal()' style='padding: 0.75rem 1.5rem; background: #4CAF50; border: none; border-radius: 10px; color: white; cursor: pointer;'>בואו נתחיל!</button></div></div>\`;" >> index.html
+          echo "  document.body.appendChild(modal);" >> index.html
+          echo "  window.currentModal = modal;" >> index.html
+          echo "  window.currentModalConfirm = onConfirm;" >> index.html
+          echo "}" >> index.html
+          echo "" >> index.html
+          
+          echo "function closeModal() {" >> index.html
+          echo "  if (window.currentModal) {" >> index.html
+          echo "    window.currentModal.remove();" >> index.html
+          echo "    window.currentModal = null;" >> index.html
+          echo "  }" >> index.html
+          echo "}" >> index.html
+          echo "" >> index.html
+          
+          echo "function confirmModal() {" >> index.html
+          echo "  if (window.currentModalConfirm) {" >> index.html
+          echo "    window.currentModalConfirm();" >> index.html
+          echo "  }" >> index.html
+          echo "  closeModal();" >> index.html
+          echo "}" >> index.html
+          echo "" >> index.html
+          
+          # Sound Effects System
+          echo "// Sound Effects System (Simulated)" >> index.html
+          echo "function playSound(type) {" >> index.html
+          echo "  console.log('🔊 Playing sound:', type);" >> index.html
+          echo "  // In real app, would use Web Audio API or HTML5 Audio" >> index.html
+          echo "}" >> index.html
+          echo "" >> index.html
+          
+          # Advanced Notification System  
+          echo "// Advanced Notification System" >> index.html
+          echo "function showAdvancedNotification(message, type = 'info') {" >> index.html
+          echo "  const colors = { success: '#4CAF50', info: '#2196F3', warning: '#FF9800', error: '#f44336' };" >> index.html
+          echo "  const notification = document.createElement('div');" >> index.html
+          echo "  notification.style.cssText = \`position: fixed; top: 20px; right: 20px; background: \${colors[type]}; color: white; padding: 1rem 2rem; border-radius: 10px; z-index: 1000; animation: slideInRight 0.3s; box-shadow: 0 4px 20px rgba(0,0,0
