@@ -1,4 +1,4 @@
-name: ABC English Explorer - Complete Workflow
+name: ABC English Explorer - Expanded Workflow
 
 on:
   workflow_dispatch:
@@ -12,9 +12,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Clean repo except .git and .github
+      - name: Clean repo
         run: |
-          find . -mindepth 1 -maxdepth 1 ! -name ".git" ! -name ".github" -exec rm -rf {} +
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' ! -name '.github' -exec rm -rf {} +
 
       - name: Create folders
         run: |
@@ -22,63 +22,57 @@ jobs:
           mkdir -p lessons/grade1 lessons/grade2 lessons/grade3 lessons/grade4 lessons/grade5 lessons/grade6
           mkdir -p css js components games
 
-      - name: Add logo image
+      - name: Add logo
         run: |
-          curl -o assets/images/logo.jpg https://raw.githubusercontent.com/efroniprojects-debug/New-English-Starter/main/logo.jpg
+          curl -sL https://raw.githubusercontent.com/efroniprojects-debug/New-English-Starter/main/logo.jpg -o assets/images/logo.jpg
 
-      - name: Create CSS styles
+      - name: Create CSS
         run: |
-          cat > css/styles.css <<EOF
+          mkdir -p css
+          cat > css/styles.css << EOF
 body { font-family: Arial, sans-serif; background-color: #f0f8ff; }
-h1 { color: #0275d8; text-align: center; margin-top: 1em; }
+h1 { color: #0275d8; text-align: center; }
 p { font-size: 1.2em; margin: 10px 20px; }
 EOF
 
       - name: Create index.html
         run: |
-          cat > index.html <<EOF
+          cat > index.html << EOF
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="css/styles.css" />
-  <title>ABC English Explorer</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ABC English Explorer</title>
+<link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <header style="text-align:center; padding: 1em;">
-    <img src="assets/images/logo.jpg" alt="ABC Explorer Logo" style="width: 120px;" />
-    <h1>ברוכים הבאים ל-ABC English Explorer</h1>
-  </header>
-  <main>
-    <p>פרויקט מתקדם ללימוד אנגלית עם תוכן ראשון ומשחקי אינטראקציה.</p>
-  </main>
+<header style="text-align:center; padding: 1em;">
+<img src="assets/images/logo.jpg" alt="ABC Explorer Logo" style="width: 120px;" />
+<h1>ברוכים הבאים ל-ABC English Explorer</h1>
+</header>
+<main>
+<p>פרויקט נתחדש בהדרגה לתכנים ודינמיקות חדשות.</p>
+</main>
 </body>
 </html>
 EOF
 
-      - name: Create example lessons JSON
+      - name: Create lessons JSON
         run: |
           mkdir -p lessons/grade1
-          cat > lessons/grade1/lesson1.json <<EOF
+          cat > lessons/grade1/lesson1.json << EOF
 {
   "id": "grade1_lesson1",
-  "title": "האותיות הראשונות",
+  "title": "אותיות A-C",
   "words": ["Apple", "Ball", "Cat"]
 }
 EOF
-          cat > lessons/grade1/lesson2.json <<EOF
-{
-  "id": "grade1_lesson2",
-  "title": "DEF - ממשיכים ללמוד",
-  "words": ["Dog", "Egg", "Fish"]
-}
-EOF
 
-      - name: Commit & push all changes
+      - name: Commit and push
         run: |
           git config user.email "bot@example.com"
           git config user.name "Bot"
           git add .
-          git commit -m "🚀 Add logo, styles, index.html, and example lessons"
+          git commit -m "Add initial folders, assets and lessons"
           git push
