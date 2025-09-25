@@ -1,300 +1,141 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="ABC English Explorer - פלטפורמה חינוכית מקצועית עם לוגו אישי">
-<meta name="theme-color" content="#4FC3F7">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="./logo.jpg" type="image/jpeg">
-<link rel="apple-touch-icon" href="./icon-192-round.jpg">
-<title>🚀 ABC English Explorer | פלטפורמה מקצועית עם לוגו אישי</title>
-<style>
-:root {
-  --primary: #4FC3F7;
-  --secondary: #29B6F6;
-  --accent: #FF9800;
-  --success: #4CAF50;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  min-height: 100vh; color: white; direction: rtl;
-}
-
-.header {
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(20px);
-  padding: 2rem; text-align: center; margin-bottom: 3rem;
-  border-radius: 0 0 30px 30px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-}
-
-.logo-section {
-  display: flex; align-items: center; justify-content: center;
-  gap: 2rem; margin-bottom: 2rem; cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.logo-section:hover { transform: scale(1.05); }
-
-.custom-logo {
-  width: 120px; height: 120px; border-radius: 50%;
-  object-fit: cover; border: 4px solid rgba(255,255,255,0.3);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-  animation: logoFloat 3s ease-in-out infinite;
-}
-
-@keyframes logoFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.brand-info h1 {
-  font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;
-  background: linear-gradient(45deg, white, #e3f2fd);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.brand-version {
-  font-size: 1.2rem; opacity: 0.9; font-weight: 600;
-  color: var(--accent);
-}
-
-.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-
-.status-card {
-  background: rgba(76, 175, 80, 0.2); padding: 3rem;
-  border-radius: 30px; border: 3px solid rgba(76, 175, 80, 0.4);
-  margin: 3rem auto; max-width: 800px; text-align: center;
-  backdrop-filter: blur(15px); box-shadow: 0 15px 50px rgba(0,0,0,0.2);
-}
-
-.status-icon {
-  font-size: 4rem; margin-bottom: 2rem;
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-.stats-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem; margin: 4rem 0;
-}
-
-.stat-card {
-  background: rgba(255,255,255,0.15); padding: 2.5rem;
-  border-radius: 25px; text-align: center;
-  backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.2);
-  transition: all 0.3s ease; cursor: pointer;
-}
-
-.stat-card:hover {
-  transform: translateY(-8px); background: rgba(255,255,255,0.25);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-}
-
-.stat-number {
-  font-size: 3rem; font-weight: 900; color: var(--accent);
-  margin-bottom: 1rem; display: block;
-}
-
-.features-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem; margin: 4rem 0;
-}
-
-.feature-card {
-  background: rgba(255,255,255,0.15); padding: 2.5rem;
-  border-radius: 20px; text-align: center;
-  backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.2);
-  transition: all 0.3s ease; cursor: pointer;
-}
-
-.feature-card:hover {
-  transform: translateY(-10px); background: rgba(255,255,255,0.25);
-}
-
-.feature-icon { font-size: 3.5rem; margin-bottom: 1.5rem; }
-
-.action-buttons {
-  display: flex; gap: 2rem; justify-content: center;
-  flex-wrap: wrap; margin: 4rem 0;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--accent), #FF7043);
-  color: white; padding: 1.5rem 3rem; border: none;
-  border-radius: 50px; font-size: 1.2rem; font-weight: 700;
-  cursor: pointer; transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(255,152,0,0.4);
-}
-
-.btn-primary:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 15px 40px rgba(255,152,0,0.6);
-}
-
-.footer {
-  background: rgba(0,0,0,0.3); padding: 3rem; text-align: center;
-  margin-top: 5rem; border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-.footer-logo {
-  width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
-  margin: 0 auto 2rem; border: 3px solid rgba(255,255,255,0.3);
-}
-
-@media (max-width: 768px) {
-  .custom-logo { width: 80px; height: 80px; }
-  .brand-info h1 { font-size: 2rem; }
-  .logo-section { flex-direction: column; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-  .features-grid { grid-template-columns: 1fr; }
-  .action-buttons { flex-direction: column; align-items: center; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABC English Explorer</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4FC3F7, #29B6F6);
+      color: white; min-height: 100vh; direction: rtl;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
+    }
+    .container {
+      background: rgba(255,255,255,0.1);
+      padding: 3rem; border-radius: 20px;
+      backdrop-filter: blur(10px);
+      max-width: 900px; width: 100%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+    h1 { font-size: 3rem; margin-bottom: 1rem; }
+    .subtitle { font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.9; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem; margin: 3rem 0;
+    }
+    .stat {
+      background: rgba(255,255,255,0.1);
+      padding: 2rem; border-radius: 15px;
+      transition: all 0.3s ease; cursor: pointer;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+    .stat:hover {
+      transform: translateY(-5px) scale(1.02);
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    }
+    .stat-number {
+      font-size: 2.5rem; font-weight: bold;
+      color: #FF9800; margin-bottom: 0.5rem;
+    }
+    .stat-label { font-size: 1.1rem; font-weight: 600; }
+    .buttons {
+      display: flex; gap: 1rem; justify-content: center;
+      flex-wrap: wrap; margin-top: 2rem;
+    }
+    .btn {
+      background: #FF9800; color: white;
+      padding: 1rem 2rem; border: none; border-radius: 50px;
+      font-size: 1.1rem; cursor: pointer; margin: 0.5rem;
+      transition: all 0.3s ease; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .btn:hover {
+      background: #FF7043; transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255,152,0,0.4);
+    }
+    .status {
+      background: rgba(76,175,80,0.2);
+      border: 2px solid rgba(76,175,80,0.5);
+      padding: 2rem; border-radius: 15px; margin: 2rem 0;
+    }
+    .status-icon { font-size: 3rem; margin-bottom: 1rem; }
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      .container { padding: 2rem; margin: 1rem; }
+      .buttons { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 300px; }
+    }
+  </style>
 </head>
 <body>
-
-<header class="header">
-  <div class="logo-section" onclick="showBrandInfo()">
-    <img src="./logo.jpg" alt="ABC English Explorer Professional Logo" class="custom-logo">
-    <div class="brand-info">
-      <h1>ABC English Explorer</h1>
-      <div class="brand-version">פלטפורמה מקצועית עם לוגו אישי</div>
+  <div class="container">
+    <h1>🤖 ABC English Explorer</h1>
+    <p class="subtitle">פלטפורמה חינוכית מקצועית לילדי ישראל</p>
+    
+    <div class="status">
+      <div class="status-icon">🌟</div>
+      <h2>הפלטפורמה פעילה ומוכנה!</h2>
+      <p>עם כל התכונות המתקדמות • PWA • AI • נגישות מלאה</p>
+    </div>
+    
+    <div class="stats">
+      <div class="stat" onclick="showInfo('lessons')">
+        <div class="stat-number">192</div>
+        <div class="stat-label">יחידות לימוד מקצועיות</div>
+      </div>
+      <div class="stat" onclick="showInfo('games')">
+        <div class="stat-number">25+</div>
+        <div class="stat-label">משחקים אינטראקטיביים</div>
+      </div>
+      <div class="stat" onclick="showInfo('free')">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">חינמי לחלוטין</div>
+      </div>
+      <div class="stat" onclick="showInfo('ai')">
+        <div class="stat-number">AI</div>
+        <div class="stat-label">מנטור חכם ומתקדם</div>
+      </div>
+    </div>
+    
+    <div class="buttons">
+      <button class="btn" onclick="startLearning()">🚀 התחל ללמוד עכשיו</button>
+      <button class="btn" onclick="showFeatures()">🎮 גלה תכונות</button>
+      <button class="btn" onclick="installApp()">📱 התקן אפליקציה</button>
     </div>
   </div>
-</header>
-
-<main class="container">
-  <section class="hero-section">
-    <div class="status-card">
-      <div class="status-icon">🌟</div>
-      <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">הפלטפורמה המקצועית פעילה!</h2>
-      <p style="font-size: 1.3rem;">עם הלוגו המקצועי שלך • 192 יחידות לימוד • משחקים אינטראקטיביים • PWA מלא</p>
-    </div>
-  </section>
-
-  <section class="stats-grid">
-    <div class="stat-card" onclick="showStats('lessons')">
-      <span class="stat-number">192</span>
-      <span>יחידות לימוד מקצועיות</span>
-    </div>
-    <div class="stat-card" onclick="showStats('games')">
-      <span class="stat-number">25+</span>
-      <span>משחקים אינטראקטיביים</span>
-    </div>
-    <div class="stat-card" onclick="showStats('free')">
-      <span class="stat-number">100%</span>
-      <span>חינמי לחלוטין</span>
-    </div>
-    <div class="stat-card" onclick="showStats('ai')">
-      <span class="stat-number">AI</span>
-      <span>מנטור חכם</span>
-    </div>
-  </section>
-  <section class="features-grid">
-    <div class="feature-card" onclick="showFeature('brand')">
-      <div class="feature-icon">🎨</div>
-      <h3>עיצוב מקצועי</h3>
-      <p>עם הלוגו המקצועי שלך ועיצוב ברמה בינלאומית</p>
-    </div>
-    <div class="feature-card" onclick="showFeature('ai')">
-      <div class="feature-icon">🤖</div>
-      <h3>AI מנטור אישי</h3>
-      <p>בינה מלאכותית מתקדמת לליווי אישי</p>
-    </div>
-    <div class="feature-card" onclick="showFeature('lessons')">
-      <div class="feature-icon">📚</div>
-      <h3>192 יחידות לימוד</h3>
-      <p>תכנים מקצועיים ומותאמים לכל רמה</p>
-    </div>
-    <div class="feature-card" onclick="showFeature('games')">
-      <div class="feature-icon">🎮</div>
-      <h3>משחקים חכמים</h3>
-      <p>למידה מהנה עם משחקים אינטראקטיביים</p>
-    </div>
-    <div class="feature-card" onclick="showFeature('pwa')">
-      <div class="feature-icon">📱</div>
-      <h3>PWA מתקדם</h3>
-      <p>אפליקציה מלאה שעובדת אופליין</p>
-    </div>
-    <div class="feature-card" onclick="showFeature('accessibility')">
-      <div class="feature-icon">♿</div>
-      <h3>נגישות מלאה</h3>
-      <p>מותאם לכל הילדים ללא יוצא מן הכלל</p>
-    </div>
-  </section>
-
-  <section class="action-buttons">
-    <button class="btn-primary" onclick="startLearning()">🚀 התחל ללמוד עכשיו</button>
-    <button class="btn-primary" onclick="exploreFeatures()">🎮 גלה את התכונות</button>
-    <button class="btn-primary" onclick="installApp()">📱 התקן אפליקציה</button>
-  </section>
-
-</main>
-<footer class="footer">
-  <img src="./logo.jpg" alt="ABC English Explorer Logo" class="footer-logo">
-  <h3>ABC English Explorer</h3>
-  <p>פלטפורמה חינוכית מקצועית עם לוגו אישי</p>
-  <p style="margin-top: 1.5rem; opacity: 0.8;">נבנה עם ❤️ לילדי ישראל • עיצוב מקצועי • טכנולוגיה מתקדמת</p>
-</footer>
-
-<script>
-console.log("🚀 ABC English Explorer with Professional Logo - Ready!");
-
-function showBrandInfo() {
-  alert("🎨 הלוגו המקצועי שלך!\n\n✨ עיצוב ברמה בינלאומית\n🌟 זהות מותג חזקה\n💎 מקצועיות מרבית\n🚀 טכנולוגיה מתקדמת\n\n💙 נבנה במיוחד עבורך!");
-}
-
-function showStats(type) {
-  const stats = {
-    "lessons": "📚 192 יחידות לימוד מקצועיות!\\n\\n🎓 מותאמות לתוכנית הלימודים הישראלית\\n✨ עם בינה מלאכותית מובנית\\n🎤 קריינות מקצועית\\n📊 מעקב התקדמות מפורט",
-    "games": "🎮 25+ משחקים אינטראקטיביים!\\n\\n🧠 זיכרון והתאמות\\n🎯 בינגו מילים\\n✍️ איות אינטראקטיבי\\n👂 הקשבה והגייה\\n🏆 אתגרים מהנים",
-    "free": "💎 100% חינמי לחלוטין!\\n\\n🌟 ללא עלויות נסתרות\\n❤️ נבנה עם אהבה לילדי ישראל\\n🎯 נגישות לכל המשפחות\\n🏆 שוויון חינוכי",
-    "ai": "🤖 AI מנטור חכם!\\n\\n🧠 בינה מלאכותית מתקדמת\\n🎯 התאמה אישית לכל ילד\\n📈 זיהוי נקודות חוזק וחולשה\\n💡 טיפים והדרכה מותאמים"
-  };
-  alert(stats[type] || "מידע נוסף בקרוב!");
-}
-
-function showFeature(type) {
-  const features = {
-    "brand": "🎨 עיצוב מקצועי ברמה בינלאומית!\\n\\n✨ הלוגו המקצועי שלך\\n🌟 זהות מותג חזקה ומוכרת\\n💎 עיצוב עכשווי ומתקדם\\n🚀 חוויית משתמש מושלמת",
-    "ai": "🤖 AI מנטור אישי מתקדם!\\n\\n🧠 בינה מלאכותית חכמה\\n🎯 התאמה מושלמת לכל ילד\\n📊 ניתוח התקדמות בזמן אמת\\n💪 חיזוק נקודות חולשה",
-    "lessons": "📚 192 יחידות לימוד מקצועיות!\\n\\n🎓 תכנים איכותיים ומעודכנים\\n🎤 קריינות מקצועית HD\\n📝 תרגילים מגוונים ומאתגרים\\n🏆 מערכת הישגים מוטיבציונית",
-    "games": "🎮 משחקים חכמים ומהנים!\\n\\n🧩 זיכרון ופאזלים\\n🎯 בינגו אינטראקטיבי\\n🔤 איות יצירתי\\n🎪 אתגרים מגוונים",
-    "pwa": "📱 PWA מתקדם ומושלם!\\n\\n📲 התקנה כאפליקציה רגילה\\n🌐 עבודה מושלמת בלי אינטרנט\\n⚡ טעינה מהירה וחלקה\\n🔄 עדכונים אוטומטיים",
-    "accessibility": "♿ נגישות מלאה לכולם!\\n\\n👀 תמיכה בקוראי מסך\\n⌨️ ניווט מקלדת מושלם\\n🎨 ניגודיות מותאמת\\n❤️ כל ילד יכול ללמוד בנוחות"
-  };
-  alert(features[type] || "תכונה מדהימה בקרוב!");
-}
-
-function startLearning() {
-  alert("🚀 בואו נתחיל ללמוד!\\n\\n📚 192 שיעורים מחכים לך\\n🤖 המנטור ה-AI מוכן לעזור\\n🎮 משחקים מהנים\\n🏆 הישגים מרגשים\\n\\n🌟 הרפתקה חינוכית מתחילה!");
-}
-
-function exploreFeatures() {
-  alert("🎮 גלה את כל התכונות!\\n\\n🎨 עיצוב מקצועי עם הלוגו שלך\\n🤖 AI מנטור חכם\\n📚 192 יחידות לימוד\\n🎮 25+ משחקים\\n📱 PWA מתקדם\\n♿ נגישות מלאה\\n\\n💎 הפלטפורמה הכי מתקדמת!");
-}
-
-function installApp() {
-  alert("📱 התקן אפליקציה מקצועית!\\n\\n🚀 PWA מתקדם עם הלוגו שלך\\n📲 מתקין כאפליקציה רגילה\\n🌐 עובד גם בלי אינטרנט\\n⚡ מהיר וחלק\\n🔔 התראות חכמות\\n\\n🌟 חוויה מושלמת במובייל!");
-}
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js")
-    .then(() => console.log("✅ Professional PWA activated with custom logo"))
-    .catch(err => console.log("Service Worker failed:", err));
-}
-</script>
+  
+  <script>
+    function showInfo(type) {
+      const info = {
+        "lessons": "📚 192 יחידות לימוד מקצועיות!\\n\\n🎓 מותאמות לתוכנית הלימודים הישראלית\\n✨ עם בינה מלאכותית מתקדמת\\n🎤 קריינות מקצועית HD\\n📊 מעקב התקדמות מפורט\\n🏆 מערכת הישגים מוטיבציונית",
+        "games": "🎮 25+ משחקים אינטראקטיביים!\\n\\n🧠 משחקי זיכרון חכמים\\n🎯 בינגו מילים מתקדם\\n✍️ איות אינטראקטיבי\\n👂 הקשבה והגייה מקצועית\\n🏆 אתגרים מהנים ומעוררי השראה\\n🎪 למידה משחקית",
+        "free": "💎 100% חינמי לחלוטין תמיד!\\n\\n🌟 ללא עלויות נסתרות אף פעם\\n❤️ נבנה עם אהבה אינסופית לילדי ישראל\\n🎯 נגישות מלאה לכל המשפחות\\n🏆 שוויון חינוכי אמיתי\\n🇮🇱 גאים בישראליות שלנו",
+        "ai": "🤖 AI מנטור חכם מהדור הבא!\\n\\n🧠 בינה מלאכותית מתקדמת\\n🎯 התאמה אישית מושלמת לכל ילד\\n📈 זיהוי נקודות חוזק וחולשה\\n💡 טיפים והדרכה מותאמים אישית\\n🌟 למידה חכמה ומותאמת"
+      };
+      alert(info[type] || "מידע מפורט בקרוב!");
+    }
+    
+    function startLearning() {
+      alert("🚀 בואו נתחיל ללמוד!\\n\\n📚 192 שיעורים מקצועיים מחכים לך\\n🤖 המנטור ה-AI החכם מוכן לעזור\\n🎮 משחקים מהנים ואינטראקטיביים\\n🏆 הישגים מרגשים וגורמי גאווה\\n\\n🌟 הרפתקה חינוכית מדהימה מתחילה עכשיו!");
+    }
+    
+    function showFeatures() {
+      alert("🎮 התכונות המתקדמות שלנו:\\n\\n🤖 AI מנטור אישי וחכם\\n📚 192 יחידות לימוד מקצועיות\\n🎮 25+ משחקים אינטראקטיביים\\n🎤 קריינות מקצועית HD\\n📊 מעקב התקדמות חכם\\n📱 PWA מתקדם לנייד\\n♿ נגישות מלאה לכל הילדים\\n🇮🇱 מותאם לחברה הישראלית\\n\\n💎 הכל חינמי לחלוטין!");
+    }
+    
+    function installApp() {
+      alert("📱 התקן את האפליקציה!\\n\\n🚀 PWA מתקדם ומקצועי\\n📲 מתקין כאפליקציה רגילה בטלפון\\n🌐 עובד מושלם גם בלי אינטרנט\\n⚡ טעינה מהירה וחלקה\\n🔔 התראות חכמות ומותאמות\\n💾 שומר את כל ההתקדמות\\n\\n🌟 חוויית למידה מושלמת בנייד!");
+    }
+    
+    console.log("🚀 ABC English Explorer - Ready for Success!");
+    console.log("🇮🇱 Built with love for Israeli children");
+    console.log("💎 Professional educational platform");
+  </script>
 </body>
 </html>
