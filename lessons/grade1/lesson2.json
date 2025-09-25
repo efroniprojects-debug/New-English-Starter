@@ -1,5 +1,20 @@
 {
-  "id": "grade1_lesson2",
-  "title": "DEF - ממשיכים ללמוד",
-  "words": ["Dog", "Egg", "Fish"]
+  "id": "grade1_lesson2", 
+  "title": "אותיות D-F ומילים חדשות",
+  "grade": 1,
+  "unit": 2,
+  "description": "המשך לימוד האותיות וביטחון במילים בסיסיות",
+  "vocabulary": [
+    {"word": "Dog", "hebrew": "כלב", "pronunciation": "דוג"},
+    {"word": "Egg", "hebrew": "ביצה", "pronunciation": "אג"},
+    {"word": "Fish", "hebrew": "דג", "pronunciation": "פיש"}
+  ],
+  "sentences": [
+    {"english": "The dog is happy", "hebrew": "הכלב שמח"},
+    {"english": "I eat an egg", "hebrew": "אני אוכל ביצה"},
+    {"english": "Fish swim in water", "hebrew": "דגים שוחים במים"}
+  ],
+  "games": ["memory", "matching", "listening"],
+  "difficulty": "beginner",
+  "estimated_time": "15-20 minutes"
 }
