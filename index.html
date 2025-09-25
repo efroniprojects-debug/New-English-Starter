@@ -1,141 +1,68 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang='he' dir='rtl'>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ABC English Explorer</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #4FC3F7, #29B6F6);
-      color: white; min-height: 100vh; direction: rtl;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; padding: 2rem;
-    }
-    .container {
-      background: rgba(255,255,255,0.1);
-      padding: 3rem; border-radius: 20px;
-      backdrop-filter: blur(10px);
-      max-width: 900px; width: 100%;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-    }
-    h1 { font-size: 3rem; margin-bottom: 1rem; }
-    .subtitle { font-size: 1.3rem; margin-bottom: 2rem; opacity: 0.9; }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem; margin: 3rem 0;
-    }
-    .stat {
-      background: rgba(255,255,255,0.1);
-      padding: 2rem; border-radius: 15px;
-      transition: all 0.3s ease; cursor: pointer;
-      border: 2px solid rgba(255,255,255,0.2);
-    }
-    .stat:hover {
-      transform: translateY(-5px) scale(1.02);
-      background: rgba(255,255,255,0.2);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    }
-    .stat-number {
-      font-size: 2.5rem; font-weight: bold;
-      color: #FF9800; margin-bottom: 0.5rem;
-    }
-    .stat-label { font-size: 1.1rem; font-weight: 600; }
-    .buttons {
-      display: flex; gap: 1rem; justify-content: center;
-      flex-wrap: wrap; margin-top: 2rem;
-    }
-    .btn {
-      background: #FF9800; color: white;
-      padding: 1rem 2rem; border: none; border-radius: 50px;
-      font-size: 1.1rem; cursor: pointer; margin: 0.5rem;
-      transition: all 0.3s ease; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 1px;
-    }
-    .btn:hover {
-      background: #FF7043; transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(255,152,0,0.4);
-    }
-    .status {
-      background: rgba(76,175,80,0.2);
-      border: 2px solid rgba(76,175,80,0.5);
-      padding: 2rem; border-radius: 15px; margin: 2rem 0;
-    }
-    .status-icon { font-size: 3rem; margin-bottom: 1rem; }
-    @media (max-width: 768px) {
-      h1 { font-size: 2.2rem; }
-      .container { padding: 2rem; margin: 1rem; }
-      .buttons { flex-direction: column; align-items: center; }
-      .btn { width: 100%; max-width: 300px; }
-    }
-  </style>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>ABC English Explorer</title>
+<style>
+body { font-family: Arial; margin: 0; padding: 2rem; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; min-height: 100vh; direction: rtl; text-align: center; }
+.container { max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.1); padding: 3rem; border-radius: 20px; backdrop-filter: blur(10px); }
+h1 { font-size: 3rem; margin-bottom: 1rem; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0; }
+.stat { background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px; transition: transform 0.3s ease; cursor: pointer; }
+.stat:hover { transform: translateY(-5px); background: rgba(255,255,255,0.2); }
+.stat-number { font-size: 2rem; font-weight: bold; color: #FF9800; }
+.btn { background: #FF9800; color: white; padding: 1rem 2rem; border: none; border-radius: 50px; font-size: 1.1rem; cursor: pointer; margin: 0.5rem; transition: all 0.3s ease; }
+.btn:hover { background: #FF7043; transform: translateY(-2px); }
+.status { background: rgba(76,175,80,0.2); padding: 2rem; border-radius: 15px; margin: 2rem 0; border: 2px solid rgba(76,175,80,0.5); }
+@media (max-width: 768px) { h1 { font-size: 2rem; } .container { padding: 2rem; } }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>🤖 ABC English Explorer</h1>
-    <p class="subtitle">פלטפורמה חינוכית מקצועית לילדי ישראל</p>
-    
-    <div class="status">
-      <div class="status-icon">🌟</div>
-      <h2>הפלטפורמה פעילה ומוכנה!</h2>
-      <p>עם כל התכונות המתקדמות • PWA • AI • נגישות מלאה</p>
-    </div>
-    
-    <div class="stats">
-      <div class="stat" onclick="showInfo('lessons')">
-        <div class="stat-number">192</div>
-        <div class="stat-label">יחידות לימוד מקצועיות</div>
-      </div>
-      <div class="stat" onclick="showInfo('games')">
-        <div class="stat-number">25+</div>
-        <div class="stat-label">משחקים אינטראקטיביים</div>
-      </div>
-      <div class="stat" onclick="showInfo('free')">
-        <div class="stat-number">100%</div>
-        <div class="stat-label">חינמי לחלוטין</div>
-      </div>
-      <div class="stat" onclick="showInfo('ai')">
-        <div class="stat-number">AI</div>
-        <div class="stat-label">מנטור חכם ומתקדם</div>
-      </div>
-    </div>
-    
-    <div class="buttons">
-      <button class="btn" onclick="startLearning()">🚀 התחל ללמוד עכשיו</button>
-      <button class="btn" onclick="showFeatures()">🎮 גלה תכונות</button>
-      <button class="btn" onclick="installApp()">📱 התקן אפליקציה</button>
-    </div>
-  </div>
-  
-  <script>
-    function showInfo(type) {
-      const info = {
-        "lessons": "📚 192 יחידות לימוד מקצועיות!\\n\\n🎓 מותאמות לתוכנית הלימודים הישראלית\\n✨ עם בינה מלאכותית מתקדמת\\n🎤 קריינות מקצועית HD\\n📊 מעקב התקדמות מפורט\\n🏆 מערכת הישגים מוטיבציונית",
-        "games": "🎮 25+ משחקים אינטראקטיביים!\\n\\n🧠 משחקי זיכרון חכמים\\n🎯 בינגו מילים מתקדם\\n✍️ איות אינטראקטיבי\\n👂 הקשבה והגייה מקצועית\\n🏆 אתגרים מהנים ומעוררי השראה\\n🎪 למידה משחקית",
-        "free": "💎 100% חינמי לחלוטין תמיד!\\n\\n🌟 ללא עלויות נסתרות אף פעם\\n❤️ נבנה עם אהבה אינסופית לילדי ישראל\\n🎯 נגישות מלאה לכל המשפחות\\n🏆 שוויון חינוכי אמיתי\\n🇮🇱 גאים בישראליות שלנו",
-        "ai": "🤖 AI מנטור חכם מהדור הבא!\\n\\n🧠 בינה מלאכותית מתקדמת\\n🎯 התאמה אישית מושלמת לכל ילד\\n📈 זיהוי נקודות חוזק וחולשה\\n💡 טיפים והדרכה מותאמים אישית\\n🌟 למידה חכמה ומותאמת"
-      };
-      alert(info[type] || "מידע מפורט בקרוב!");
-    }
-    
-    function startLearning() {
-      alert("🚀 בואו נתחיל ללמוד!\\n\\n📚 192 שיעורים מקצועיים מחכים לך\\n🤖 המנטור ה-AI החכם מוכן לעזור\\n🎮 משחקים מהנים ואינטראקטיביים\\n🏆 הישגים מרגשים וגורמי גאווה\\n\\n🌟 הרפתקה חינוכית מדהימה מתחילה עכשיו!");
-    }
-    
-    function showFeatures() {
-      alert("🎮 התכונות המתקדמות שלנו:\\n\\n🤖 AI מנטור אישי וחכם\\n📚 192 יחידות לימוד מקצועיות\\n🎮 25+ משחקים אינטראקטיביים\\n🎤 קריינות מקצועית HD\\n📊 מעקב התקדמות חכם\\n📱 PWA מתקדם לנייד\\n♿ נגישות מלאה לכל הילדים\\n🇮🇱 מותאם לחברה הישראלית\\n\\n💎 הכל חינמי לחלוטין!");
-    }
-    
-    function installApp() {
-      alert("📱 התקן את האפליקציה!\\n\\n🚀 PWA מתקדם ומקצועי\\n📲 מתקין כאפליקציה רגילה בטלפון\\n🌐 עובד מושלם גם בלי אינטרנט\\n⚡ טעינה מהירה וחלקה\\n🔔 התראות חכמות ומותאמות\\n💾 שומר את כל ההתקדמות\\n\\n🌟 חוויית למידה מושלמת בנייד!");
-    }
-    
-    console.log("🚀 ABC English Explorer - Ready for Success!");
-    console.log("🇮🇱 Built with love for Israeli children");
-    console.log("💎 Professional educational platform");
-  </script>
+<div class='container'>
+<h1>🤖 ABC English Explorer</h1>
+<p style='font-size: 1.2rem; margin-bottom: 2rem;'>פלטפורמה חינוכית מקצועית לילדי ישראל</p>
+<div class='status'>
+<div style='font-size: 3rem; margin-bottom: 1rem;'>🌟</div>
+<h2>הפלטפורמה פעילה ומוכנה!</h2>
+<p>עם כל התכונות המתקדמות • PWA • AI • נגישות מלאה</p>
+</div>
+<div class='stats'>
+<div class='stat' onclick='showInfo("lessons")'>
+<div class='stat-number'>192</div>
+<div>יחידות לימוד</div>
+</div>
+<div class='stat' onclick='showInfo("games")'>
+<div class='stat-number'>25+</div>
+<div>משחקים</div>
+</div>
+<div class='stat' onclick='showInfo("free")'>
+<div class='stat-number'>100%</div>
+<div>חינמי</div>
+</div>
+<div class='stat' onclick='showInfo("ai")'>
+<div class='stat-number'>AI</div>
+<div>מנטור חכם</div>
+</div>
+</div>
+<button class='btn' onclick='startLearning()'>🚀 התחל ללמוד</button>
+<button class='btn' onclick='showFeatures()'>🎮 תכונות</button>
+<button class='btn' onclick='showAbout()'>ℹ️ אודות</button>
+</div>
+<script>
+function showInfo(type) {
+  const info = {
+    'lessons': '📚 192 יחידות לימוד מקצועיות!\n\n🎓 מותאמות לתוכנית הלימודים\n✨ עם בינה מלאכותית\n🎤 קריינות מקצועית',
+    'games': '🎮 25+ משחקים אינטראקטיביים!\n\n🧠 משחקי זיכרון\n🎯 בינגו מילים\n✍️ איות אינטראקטיבי',
+    'free': '💎 100% חינמי לחלוטין!\n\n🌟 ללא עלויות נסתרות\n❤️ עם אהבה לילדי ישראל\n🏆 שוויון חינוכי',
+    'ai': '🤖 AI מנטור חכם!\n\n🧠 בינה מלאכותית\n🎯 התאמה אישית\n💡 טיפים מותאמים'
+  };
+  alert(info[type] || 'מידע בקרוב!');
+}
+function startLearning() { alert('🚀 בואו נתחיל!\n\n📚 192 שיעורים מחכים\n🤖 AI מנטור מוכן\n🎮 משחקים מהנים\n🌟 הרפתקה מתחילה!'); }
+function showFeatures() { alert('🎮 תכונות מתקדמות:\n\n🤖 AI מנטור\n📚 192 יחידות\n🎮 25+ משחקים\n📱 PWA\n♿ נגישות\n💎 הכל חינמי!'); }
+function showAbout() { alert('ℹ️ ABC English Explorer:\n\n🎯 שוויון חינוכי\n💡 טכנולוגיה מתקדמת\n❤️ אהבה לילדי ישראל\n🇮🇱 גאים בישראליות!'); }
+console.log('🚀 ABC English Explorer Ready!');
+</script>
 </body>
 </html>
