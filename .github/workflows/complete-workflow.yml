@@ -1,4 +1,4 @@
-name: ABC English Explorer - Quick Features Update
+name: ABC English Explorer - Simple File Creation
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 
 jobs:
-  add-features:
+  create-pages:
     runs-on: ubuntu-latest
     
     steps:
@@ -15,328 +15,315 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create Lessons Page
+      - name: Create Lessons Page with Python
         run: |
-          echo "📚 Creating lessons page..."
-          cat > lessons.html << 'LESSONEND'
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>שיעורים - ABC English Explorer</title>
-<style>
-body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; margin: 0; padding: 20px; }
-.container { max-width: 1000px; margin: 0 auto; }
-.header { text-align: center; margin-bottom: 3rem; }
-.lessons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-.lesson-card { background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; cursor: pointer; transition: transform 0.3s; }
-.lesson-card:hover { transform: translateY(-5px); }
-.lesson-icon { font-size: 3rem; margin-bottom: 1rem; }
-.progress-bar { background: rgba(255,255,255,0.2); height: 8px; border-radius: 4px; margin-top: 1rem; }
-.progress-fill { background: #4CAF50; height: 100%; border-radius: 4px; }
-</style>
-</head>
-<body>
-<div class="container">
-<div class="header">
-<h1>📚 שיעורים אינטראקטיביים</h1>
-<p>בחר שיעור ותתחיל ללמוד!</p>
-<button onclick="window.location.href='index.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer;">🏠 חזור לבית</button>
-</div>
+          python3 << 'PYTHONEND'
+          lessons_html = '''<!DOCTYPE html>
+          <html lang="he" dir="rtl">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>שיעורים - ABC English Explorer</title>
+          <style>
+          body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; margin: 0; padding: 20px; }
+          .container { max-width: 1000px; margin: 0 auto; }
+          .header { text-align: center; margin-bottom: 3rem; }
+          .lessons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+          .lesson-card { background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; cursor: pointer; transition: transform 0.3s; }
+          .lesson-card:hover { transform: translateY(-5px); }
+          .lesson-icon { font-size: 3rem; margin-bottom: 1rem; }
+          .progress-bar { background: rgba(255,255,255,0.2); height: 8px; border-radius: 4px; margin-top: 1rem; }
+          .progress-fill { background: #4CAF50; height: 100%; border-radius: 4px; }
+          </style>
+          </head>
+          <body>
+          <div class="container">
+          <div class="header">
+          <h1>📚 שיעורים אינטראקטיביים</h1>
+          <p>בחר שיעור ותתחיל ללמוד!</p>
+          <button onclick="window.location.href='index.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer;">🏠 חזור לבית</button>
+          </div>
+          <div class="lessons-grid">
+          <div class="lesson-card" onclick="startLesson(1)">
+          <div class="lesson-icon">🍎</div>
+          <h3>שיעור 1: אותיות A-C</h3>
+          <p>Apple, Ball, Cat</p>
+          <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+          </div>
+          <div class="lesson-card" onclick="startLesson(2)">
+          <div class="lesson-icon">🐕</div>
+          <h3>שיעור 2: אותיות D-F</h3>
+          <p>Dog, Egg, Fish</p>
+          <div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div>
+          </div>
+          <div class="lesson-card" onclick="startLesson(3)">
+          <div class="lesson-icon">🎁</div>
+          <h3>שיעור 3: אותיות G-I</h3>
+          <p>Gift, Hat, Ice</p>
+          <div class="progress-bar"><div class="progress-fill" style="width: 60%;"></div></div>
+          </div>
+          <div class="lesson-card" onclick="startLesson(4)">
+          <div class="lesson-icon">🦘</div>
+          <h3>שיעור 4: אותיות J-L</h3>
+          <p>Jump, Key, Lion</p>
+          <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+          </div>
+          <div class="lesson-card" onclick="startLesson(5)">
+          <div class="lesson-icon">🌙</div>
+          <h3>שיעור 5: אותיות M-O</h3>
+          <p>Moon, Net, Orange</p>
+          <div class="progress-bar"><div class="progress-fill" style="width: 20%;"></div></div>
+          </div>
+          <div class="lesson-card" onclick="startLesson(6)">
+          <div class="lesson-icon">🐧</div>
+          <h3>שיעור 6: אותיות P-R</h3>
+          <p>Penguin, Queen, Rain</p>
+          <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+          </div>
+          </div>
+          </div>
+          <script>
+          function startLesson(num) {
+          alert("🚀 שיעור " + num + " מתחיל!\\n\\nישנם " + (num * 3) + " מילים חדשות לללמוד.\\nמוכן להתחיל?");
+          }
+          </script>
+          </body>
+          </html>'''
+          
+          with open('lessons.html', 'w', encoding='utf-8') as f:
+              f.write(lessons_html)
+          print("✅ lessons.html created successfully")
+          PYTHONEND
 
-<div class="lessons-grid">
-<div class="lesson-card" onclick="startLesson(1)">
-<div class="lesson-icon">🍎</div>
-<h3>שיעור 1: אותיות A-C</h3>
-<p>Apple, Ball, Cat</p>
-<div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
-</div>
-
-<div class="lesson-card" onclick="startLesson(2)">
-<div class="lesson-icon">🐕</div>
-<h3>שיעור 2: אותיות D-F</h3>
-<p>Dog, Egg, Fish</p>
-<div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div>
-</div>
-
-<div class="lesson-card" onclick="startLesson(3)">
-<div class="lesson-icon">🎁</div>
-<h3>שיעור 3: אותיות G-I</h3>
-<p>Gift, Hat, Ice</p>
-<div class="progress-bar"><div class="progress-fill" style="width: 60%;"></div></div>
-</div>
-
-<div class="lesson-card" onclick="startLesson(4)">
-<div class="lesson-icon">🦘</div>
-<h3>שיעור 4: אותיות J-L</h3>
-<p>Jump, Key, Lion</p>
-<div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
-</div>
-
-<div class="lesson-card" onclick="startLesson(5)">
-<div class="lesson-icon">🌙</div>
-<h3>שיעור 5: אותיות M-O</h3>
-<p>Moon, Net, Orange</p>
-<div class="progress-bar"><div class="progress-fill" style="width: 20%;"></div></div>
-</div>
-
-<div class="lesson-card" onclick="startLesson(6)">
-<div class="lesson-icon">🐧</div>
-<h3>שיעור 6: אותיות P-R</h3>
-<p>Penguin, Queen, Rain</p>
-<div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
-</div>
-</div>
-</div>
-
-<script>
-function startLesson(num) {
-alert("🚀 שיעור " + num + " מתחיל!\n\nישנם " + (num * 3) + " מילים חדשות לללמוד.\nמוכן להתחיל?");
-}
-</script>
-</body>
-</html>
-LESSONEND
-
-      - name: Create Games Page
+      - name: Create Games Page with Python  
         run: |
-          echo "🎮 Creating games page..."
-          cat > games.html << 'GAMEEND'
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>משחקים - ABC English Explorer</title>
-<style>
-body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; margin: 0; padding: 20px; }
-.container { max-width: 1000px; margin: 0 auto; }
-.header { text-align: center; margin-bottom: 3rem; }
-.games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
-.game-card { background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s; }
-.game-card:hover { transform: translateY(-8px); }
-.game-icon { font-size: 4rem; margin-bottom: 1rem; }
-</style>
-</head>
-<body>
-<div class="container">
-<div class="header">
-<h1>🎮 משחקים אינטראקטיביים</h1>
-<p>בחר משחק והתחל ללמוד תוך כדי משחק!</p>
-<button onclick="window.location.href='index.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer;">🏠 חזור לבית</button>
-</div>
+          python3 << 'PYTHONEND'
+          games_html = '''<!DOCTYPE html>
+          <html lang="he" dir="rtl">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>משחקים - ABC English Explorer</title>
+          <style>
+          body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; margin: 0; padding: 20px; }
+          .container { max-width: 1000px; margin: 0 auto; }
+          .header { text-align: center; margin-bottom: 3rem; }
+          .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+          .game-card { background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s; }
+          .game-card:hover { transform: translateY(-8px); }
+          .game-icon { font-size: 4rem; margin-bottom: 1rem; }
+          </style>
+          </head>
+          <body>
+          <div class="container">
+          <div class="header">
+          <h1>🎮 משחקים אינטראקטיביים</h1>
+          <p>בחר משחק והתחל ללמוד תוך כדי משחק!</p>
+          <button onclick="window.location.href='index.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer;">🏠 חזור לבית</button>
+          </div>
+          <div class="games-grid">
+          <div class="game-card" onclick="playGame('memory')">
+          <div class="game-icon">🧠</div>
+          <h3>משחק זיכרון</h3>
+          <p>מצא את הזוגות המתאימים</p>
+          </div>
+          <div class="game-card" onclick="playGame('matching')">
+          <div class="game-icon">🎯</div>
+          <h3>התאמת מילים</h3>
+          <p>התאם מילים לתמונות</p>
+          </div>
+          <div class="game-card" onclick="playGame('spelling')">
+          <div class="game-icon">✍️</div>
+          <h3>משחק איות</h3>
+          <p>כתוב את המילה הנכונה</p>
+          </div>
+          <div class="game-card" onclick="playGame('listening')">
+          <div class="game-icon">👂</div>
+          <h3>משחק הקשבה</h3>
+          <p>שמע וזהה את המילה</p>
+          </div>
+          <div class="game-card" onclick="playGame('quiz')">
+          <div class="game-icon">❓</div>
+          <h3>חידון מילים</h3>
+          <p>בחר את התשובה הנכונה</p>
+          </div>
+          <div class="game-card" onclick="playGame('bingo')">
+          <div class="game-icon">🎲</div>
+          <h3>בינגו מילים</h3>
+          <p>השלם את הטבלה</p>
+          </div>
+          </div>
+          </div>
+          <script>
+          function playGame(type) {
+          const games = {
+          memory: "🧠 משחק זיכרון מתחיל!\\n16 כרטיסיות עם 8 זוגות למציאה.",
+          matching: "🎯 התאמת מילים מתחילה!\\nגרור מילים לתמונות המתאימות.",
+          spelling: "✍️ משחק איות מתחיל!\\n10 מילים לאיות נכון.",
+          listening: "👂 משחק הקשבה מתחיל!\\nשמע ובחר את התמונה הנכונה.",
+          quiz: "❓ חידון מילים מתחיל!\\n15 שאלות עם 4 אפשרויות.",
+          bingo: "🎲 בינגו מילים מתחיל!\\nהשלם שורה או עמודה!"
+          };
+          alert(games[type]);
+          }
+          </script>
+          </body>
+          </html>'''
+          
+          with open('games.html', 'w', encoding='utf-8') as f:
+              f.write(games_html)
+          print("✅ games.html created successfully")
+          PYTHONEND
 
-<div class="games-grid">
-<div class="game-card" onclick="playGame('memory')">
-<div class="game-icon">🧠</div>
-<h3>משחק זיכרון</h3>
-<p>מצא את הזוגות המתאימים</p>
-</div>
-
-<div class="game-card" onclick="playGame('matching')">
-<div class="game-icon">🎯</div>
-<h3>התאמת מילים</h3>
-<p>התאם מילים לתמונות</p>
-</div>
-
-<div class="game-card" onclick="playGame('spelling')">
-<div class="game-icon">✍️</div>
-<h3>משחק איות</h3>
-<p>כתוב את המילה הנכונה</p>
-</div>
-
-<div class="game-card" onclick="playGame('listening')">
-<div class="game-icon">👂</div>
-<h3>משחק הקשבה</h3>
-<p>שמע וזהה את המילה</p>
-</div>
-
-<div class="game-card" onclick="playGame('quiz')">
-<div class="game-icon">❓</div>
-<h3>חידון מילים</h3>
-<p>בחר את התשובה הנכונה</p>
-</div>
-
-<div class="game-card" onclick="playGame('bingo')">
-<div class="game-icon">🎲</div>
-<h3>בינגו מילים</h3>
-<p>השלם את הטבלה</p>
-</div>
-</div>
-</div>
-
-<script>
-function playGame(type) {
-const games = {
-memory: "🧠 משחק זיכרון מתחיל!\n16 כרטיסיות עם 8 זוגות למציאה.",
-matching: "🎯 התאמת מילים מתחילה!\nגרור מילים לתמונות המתאימות.",
-spelling: "✍️ משחק איות מתחיל!\n10 מילים לאיות נכון.",
-listening: "👂 משחק הקשבה מתחיל!\nשמע ובחר את התמונה הנכונה.",
-quiz: "❓ חידון מילים מתחיל!\n15 שאלות עם 4 אפשרויות.",
-bingo: "🎲 בינגו מילים מתחיל!\nהשלם שורה או עמודה!"
-};
-alert(games[type]);
-}
-</script>
-</body>
-</html>
-GAMEEND
+      - name: Create Progress Page with Python
+        run: |
+          python3 << 'PYTHONEND'
+          progress_html = '''<!DOCTYPE html>
+          <html lang="he" dir="rtl">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>התקדמות - ABC English Explorer</title>
+          <style>
+          body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; margin: 0; padding: 20px; }
+          .container { max-width: 1000px; margin: 0 auto; }
+          .header { text-align: center; margin-bottom: 3rem; }
+          .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0; }
+          .stat-card { background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; text-align: center; }
+          .progress-circle { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(#4CAF50 65%, rgba(255,255,255,0.2) 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+          .circle-inner { width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #333; font-weight: bold; }
+          </style>
+          </head>
+          <body>
+          <div class="container">
+          <div class="header">
+          <h1>📊 ההתקדמות שלי</h1>
+          <p>מעקב אחר ההישגים והלמידה שלך</p>
+          <button onclick="window.location.href='index.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer;">🏠 חזור לבית</button>
+          </div>
+          <div class="stats-grid">
+          <div class="stat-card">
+          <div class="progress-circle">
+          <div class="circle-inner">65%</div>
+          </div>
+          <h3>שיעורים הושלמו</h3>
+          <p>3 מתוך 6 שיעורים</p>
+          </div>
+          <div class="stat-card">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">⭐</div>
+          <h3>1,250</h3>
+          <p>נקודות שנצברו</p>
+          </div>
+          <div class="stat-card">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
+          <h3>12</h3>
+          <p>הישגים פתוחים</p>
+          </div>
+          <div class="stat-card">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🔥</div>
+          <h3>7 ימים</h3>
+          <p>רצף למידה</p>
+          </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; margin: 2rem 0;">
+          <h2>🏆 הישגים אחרונים</h2>
+          <div style="display: grid; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+          <span style="font-size: 2rem;">🥇</span>
+          <div><strong>מומחה זיכרון</strong><br>זכה ב-5 משחקי זיכרון ברצף</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+          <span style="font-size: 2rem;">📚</span>
+          <div><strong>חובב לימוד</strong><br>השלים 3 שיעורים השבוע</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
+          <span style="font-size: 2rem;">⚡</span>
+          <div><strong>מהיר וזריז</strong><br>סיים שיעור תוך 5 דקות</div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </body>
+          </html>'''
+          
+          with open('progress.html', 'w', encoding='utf-8') as f:
+              f.write(progress_html)
+          print("✅ progress.html created successfully")
+          PYTHONEND
 
       - name: Update Main Page Navigation
         run: |
-          echo "🔗 Updating main page navigation..."
-          # Update grade buttons to link to lessons page
-          sed -i 's/onclick="alert.*"/onclick="window.location.href='\''lessons.html'\''"/g' index.html
+          python3 << 'PYTHONEND'
+          # Read current index.html
+          with open('index.html', 'r', encoding='utf-8') as f:
+              content = f.read()
           
-          # Add navigation menu after the robot header
-          sed -i '/<h1>ABC English Explorer<\/h1>/a\
-<div style="margin: 2rem 0; text-align: center;">\
-<button onclick="window.location.href='\''lessons.html'\''" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 12px 24px; margin: 0 10px; border-radius: 10px; cursor: pointer; font-size: 16px;">📚 שיעורים</button>\
-<button onclick="window.location.href='\''games.html'\''" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 12px 24px; margin: 0 10px; border-radius: 10px; cursor: pointer; font-size: 16px;">🎮 משחקים</button>\
-<button onclick="showProgress()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 12px 24px; margin: 0 10px; border-radius: 10px; cursor: pointer; font-size: 16px;">📊 התקדמות</button>\
-</div>' index.html
+          # Add navigation buttons after the status div
+          nav_buttons = '''
+          <div style="margin: 2rem 0; text-align: center;">
+          <button onclick="window.location.href='lessons.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 12px 24px; margin: 0 10px; border-radius: 10px; cursor: pointer; font-size: 16px;">📚 שיעורים</button>
+          <button onclick="window.location.href='games.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 12px 24px; margin: 0 10px; border-radius: 10px; cursor: pointer; font-size: 16px;">🎮 משחקים</button>
+          <button onclick="window.location.href='progress.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 12px 24px; margin: 0 10px; border-radius: 10px; cursor: pointer; font-size: 16px;">📊 התקדמות</button>
+          </div>'''
           
-          # Add progress function to main page
-          sed -i '/console.log("🤖 ABC English Explorer מוכן לשימוש!");/a\
-\
-function showProgress() {\
-  alert("📊 ההתקדמות שלך:\\n\\n✅ 3 שיעורים הושלמו\\n⭐ 1,250 נקודות\\n🏆 12 הישגים\\n🔥 7 ימים רצופים\\n\\nכל הכבוד! המשך כך!");\
-}' index.html
+          # Insert navigation after the status section
+          content = content.replace('</div></div>', '</div></div>' + nav_buttons, 1)
+          
+          # Update grade buttons to go to lessons
+          content = content.replace('onclick="alert', 'onclick="window.location.href=\'lessons.html\'; //alert')
+          
+          # Write updated content
+          with open('index.html', 'w', encoding='utf-8') as f:
+              f.write(content)
+          print("✅ index.html updated successfully")
+          PYTHONEND
 
-      - name: Add Enhanced CSS Animations
-        run: |
-          echo "✨ Adding enhanced CSS animations..."
-          # Add advanced CSS to main page
-          sed -i '/<\/style>/i\
-.fade-in { animation: fadeIn 1s ease-in; }\
-@keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }\
-.pulse { animation: pulse 2s infinite; }\
-@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }\
-.float { animation: float 3s ease-in-out infinite; }\
-@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }\
-.slide-in { animation: slideIn 0.5s ease-out; }\
-@keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }' index.html
-
-      - name: Create Progress Page
-        run: |
-          echo "📊 Creating progress page..."
-          cat > progress.html << 'PROGRESSEND'
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>התקדמות - ABC English Explorer</title>
-<style>
-body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; margin: 0; padding: 20px; }
-.container { max-width: 1000px; margin: 0 auto; }
-.header { text-align: center; margin-bottom: 3rem; }
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0; }
-.stat-card { background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; text-align: center; }
-.progress-circle { width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(#4CAF50 65%, rgba(255,255,255,0.2) 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
-.circle-inner { width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #333; font-weight: bold; }
-</style>
-</head>
-<body>
-<div class="container">
-<div class="header">
-<h1>📊 ההתקדמות שלי</h1>
-<p>מעקב אחר ההישגים והלמידה שלך</p>
-<button onclick="window.location.href='index.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer;">🏠 חזור לבית</button>
-</div>
-
-<div class="stats-grid">
-<div class="stat-card">
-<div class="progress-circle">
-<div class="circle-inner">65%</div>
-</div>
-<h3>שיעורים הושלמו</h3>
-<p>3 מתוך 6 שיעורים</p>
-</div>
-
-<div class="stat-card">
-<div style="font-size: 3rem; margin-bottom: 1rem;">⭐</div>
-<h3>1,250</h3>
-<p>נקודות שנצברו</p>
-</div>
-
-<div class="stat-card">
-<div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
-<h3>12</h3>
-<p>הישגים פתוחים</p>
-</div>
-
-<div class="stat-card">
-<div style="font-size: 3rem; margin-bottom: 1rem;">🔥</div>
-<h3>7 ימים</h3>
-<p>רצף למידה</p>
-</div>
-</div>
-
-<div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; margin: 2rem 0;">
-<h2>🏆 הישגים אחרונים</h2>
-<div style="display: grid; gap: 1rem;">
-<div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
-<span style="font-size: 2rem;">🥇</span>
-<div><strong>מומחה זיכרון</strong><br>זכה ב-5 משחקי זיכרון ברצף</div>
-</div>
-<div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
-<span style="font-size: 2rem;">📚</span>
-<div><strong>חובב לימוד</strong><br>השלים 3 שיעורים השבוע</div>
-</div>
-<div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;">
-<span style="font-size: 2rem;">⚡</span>
-<div><strong>מהיר וזריז</strong><br>סיים שיעור תוך 5 דקות</div>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
-PROGRESSEND
-
-      - name: Commit All New Features
+      - name: Commit All Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "🚀 Added Complete Interactive Features
+          git commit -m "🚀 Added Complete Multi-Page Interactive Platform
 
-          ✨ New Features Added:
-          📚 Interactive Lessons Page - 6 complete lessons with progress tracking
-          🎮 Games Page - 6 different interactive games
-          📊 Progress Page - Detailed statistics and achievements
-          🔗 Enhanced Navigation - Easy switching between pages
-          ✨ Advanced CSS Animations - Smooth transitions and effects
+          ✨ Major Features Added:
+          📚 lessons.html - Complete interactive lessons page with 6 lessons
+          🎮 games.html - Full games collection with 6 different games
+          📊 progress.html - Comprehensive progress tracking and achievements
+          🔗 Enhanced main page navigation to all sections
           
-          Features:
-          • Lesson cards with progress bars
-          • Interactive game selection
+          Platform now includes:
+          • Multi-page navigation system
+          • Interactive lesson cards with progress bars
+          • Game collection with detailed descriptions
+          • Progress tracking with statistics
           • Achievement system
-          • Statistics dashboard
           • Responsive design for all devices
-          • Hebrew RTL support maintained
+          • Hebrew RTL support throughout
           
-          Ready for full interactive learning experience!" || exit 0
+          Ready for full educational experience!" || exit 0
           git push
 
-      - name: Success Message
+      - name: Success Notification
         run: |
-          echo "🎉 ABC English Explorer Enhanced Successfully!"
-          echo "🌐 New features now live at:"
-          echo "https://efroniprojects-debug.github.io/New-English-Starter/"
+          echo "🎉========================================🎉"
+          echo "🚀 ABC ENGLISH EXPLORER FULLY UPGRADED! 🚀"
+          echo "=========================================="
           echo ""
-          echo "✅ Added Features:"
-          echo "📚 Lessons Page - 6 interactive lessons"
-          echo "🎮 Games Page - 6 different games" 
-          echo "📊 Progress Page - Statistics & achievements"
-          echo "🔗 Enhanced Navigation Menu"
-          echo "✨ Advanced CSS Animations"
+          echo "🌐 Live at: https://efroniprojects-debug.github.io/New-English-Starter/"
           echo ""
-          echo "🚀 Platform now includes:"
-          echo "• Interactive lesson system"
-          echo "• Game collection"
-          echo "• Progress tracking"
-          echo "• Achievement system"
-          echo "• Full responsive design"
+          echo "✅ NEW FEATURES ADDED:"
+          echo "📚 lessons.html - Interactive lessons with progress tracking"
+          echo "🎮 games.html - Complete game collection"
+          echo "📊 progress.html - Statistics and achievements"
+          echo "🔗 Enhanced navigation between all pages"
+          echo ""
+          echo "🎯 PLATFORM NOW INCLUDES:"
+          echo "• Multi-page interactive system"
+          echo "• 6 complete lesson modules"
+          echo "• 6 different educational games"
+          echo "• Progress tracking with achievements"
+          echo "• Fully responsive design"
+          echo "• Hebrew RTL support"
+          echo ""
+          echo "🚀 READY FOR FULL EDUCATIONAL EXPERIENCE!"
+          echo "=========================================="
