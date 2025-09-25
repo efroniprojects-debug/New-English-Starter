@@ -1,4 +1,4 @@
-name: ABC English Explorer - Final Workflow
+name: ABC English Explorer - Complete Workflow
 
 on:
   workflow_dispatch:
@@ -12,47 +12,42 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Create assets folders and logo
+      - name: Clean repo except .git and .github
         run: |
-          mkdir -p assets/images
-          curl -o assets/images/logo.jpg https://raw.githubusercontent.com/efroniprojects-debug/New-English-Starter/main/logo.jpg || echo "Logo not found"
+          find . -mindepth 1 -maxdepth 1 ! -name ".git" ! -name ".github" -exec rm -rf {} +
 
-      - name: Create CSS styles
+      - name: Create folders
         run: |
-          mkdir -p css
-          cat > css/styles.css <<EOF
-body { font-family: Arial, sans-serif; background-color: #f0f8ff; }
-h1 { color: #0275d8; text-align: center; }
-p { font-size: 1.2em; margin: 10px 20px; }
-EOF
+          mkdir -p assets/images assets/icons assets/sounds
+          mkdir -p lessons/grade1 lessons/grade2 lessons/grade3 lessons/grade4 lessons/grade5 lessons/grade6
+          mkdir -p css js components games
 
       - name: Create index.html
         run: |
           cat > index.html <<EOF
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="css/styles.css" />
-  <title>ABC English Explorer</title>
-</head>
-<body>
-  <header style="text-align:center; padding: 1em;">
-    <img src="assets/images/logo.jpg" alt="ABC Explorer Logo" style="width: 120px;" />
-    <h1>ברוכים הבאים ל-ABC English Explorer</h1>
-  </header>
-  <main>
-    <p>פרויקט מתקדם ללימוד אנגלית עם תוכן ראשון ומשחקי אינטראקציה.</p>
-  </main>
-</body>
-</html>
-EOF
+          <!DOCTYPE html>
+          <html lang="he" dir="rtl">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>ABC English Explorer v3.0</title>
+          </head>
+          <body>
+            <header style="text-align:center; padding: 1em;">
+              <img src="assets/images/logo.jpg" alt="ABC Explorer Logo" style="width: 120px;" />
+              <h1>ברוכים הבאים ל-ABC English Explorer</h1>
+            </header>
+            <main>
+              <p>פרויקט מתקדם ללימוד אנגלית עם תוכן ראשון ומשחקי אינטראקציה.</p>
+            </main>
+          </body>
+          </html>
+          EOF
 
-      - name: Commit and push changes
+      - name: Commit & push
         run: |
           git config user.email "bot@example.com"
           git config user.name "Bot"
-          git add index.html css/styles.css assets/images/logo.jpg
-          git commit -m "Add index.html, styles and logo"
+          git add .
+          git commit -m "Add index.html and folders"
           git push
