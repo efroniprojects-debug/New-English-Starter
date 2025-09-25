@@ -1,0 +1,37 @@
+name: Bootstrap Minimal
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create site and lesson
+        run: |
+          mkdir -p lessons/grade1
+          cat > index.html <<EOF
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Hello World - Minimal Success!</h1>
+  </body>
+</html>
+EOF
+          cat > lessons/grade1/lesson1.json <<EOF
+{
+  "id": "grade1_lesson1",
+  "title": "ABC Minimal",
+  "words": ["Apple", "Ball", "Cat"]
+}
+EOF
+
+      - name: Git commit and push
+        run: |
+          git config user.email "bot@now.com"
+          git config user.name "Bot"
+          git add .
+          git commit -m "Minimal site and lesson"
+          git push
