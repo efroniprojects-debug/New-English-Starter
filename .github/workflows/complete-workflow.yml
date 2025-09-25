@@ -22,32 +22,63 @@ jobs:
           mkdir -p lessons/grade1 lessons/grade2 lessons/grade3 lessons/grade4 lessons/grade5 lessons/grade6
           mkdir -p css js components games
 
+      - name: Add logo image
+        run: |
+          curl -o assets/images/logo.jpg https://raw.githubusercontent.com/efroniprojects-debug/New-English-Starter/main/logo.jpg
+
+      - name: Create CSS styles
+        run: |
+          cat > css/styles.css <<EOF
+body { font-family: Arial, sans-serif; background-color: #f0f8ff; }
+h1 { color: #0275d8; text-align: center; margin-top: 1em; }
+p { font-size: 1.2em; margin: 10px 20px; }
+EOF
+
       - name: Create index.html
         run: |
           cat > index.html <<EOF
-          <!DOCTYPE html>
-          <html lang="he" dir="rtl">
-          <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <title>ABC English Explorer v3.0</title>
-          </head>
-          <body>
-            <header style="text-align:center; padding: 1em;">
-              <img src="assets/images/logo.jpg" alt="ABC Explorer Logo" style="width: 120px;" />
-              <h1>ברוכים הבאים ל-ABC English Explorer</h1>
-            </header>
-            <main>
-              <p>פרויקט מתקדם ללימוד אנגלית עם תוכן ראשון ומשחקי אינטראקציה.</p>
-            </main>
-          </body>
-          </html>
-          EOF
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <title>ABC English Explorer</title>
+</head>
+<body>
+  <header style="text-align:center; padding: 1em;">
+    <img src="assets/images/logo.jpg" alt="ABC Explorer Logo" style="width: 120px;" />
+    <h1>ברוכים הבאים ל-ABC English Explorer</h1>
+  </header>
+  <main>
+    <p>פרויקט מתקדם ללימוד אנגלית עם תוכן ראשון ומשחקי אינטראקציה.</p>
+  </main>
+</body>
+</html>
+EOF
 
-      - name: Commit & push
+      - name: Create example lessons JSON
+        run: |
+          mkdir -p lessons/grade1
+          cat > lessons/grade1/lesson1.json <<EOF
+{
+  "id": "grade1_lesson1",
+  "title": "האותיות הראשונות",
+  "words": ["Apple", "Ball", "Cat"]
+}
+EOF
+          cat > lessons/grade1/lesson2.json <<EOF
+{
+  "id": "grade1_lesson2",
+  "title": "DEF - ממשיכים ללמוד",
+  "words": ["Dog", "Egg", "Fish"]
+}
+EOF
+
+      - name: Commit & push all changes
         run: |
           git config user.email "bot@example.com"
           git config user.name "Bot"
           git add .
-          git commit -m "Add index.html and folders"
+          git commit -m "🚀 Add logo, styles, index.html, and example lessons"
           git push
