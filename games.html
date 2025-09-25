@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>משחקים - ABC English Explorer</title>
+<style>
+body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; margin: 0; padding: 20px; }
+.container { max-width: 1000px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 3rem; }
+.games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+.game-card { background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; text-align: center; cursor: pointer; transition: transform 0.3s; }
+.game-card:hover { transform: translateY(-8px); }
+.game-icon { font-size: 4rem; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>🎮 משחקים אינטראקטיביים</h1>
+<p>בחר משחק והתחל ללמוד תוך כדי משחק!</p>
+<button onclick="window.location.href='index.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer;">🏠 חזור לבית</button>
+</div>
+<div class="games-grid">
+<div class="game-card" onclick="playGame('memory')">
+<div class="game-icon">🧠</div>
+<h3>משחק זיכרון</h3>
+<p>מצא את הזוגות המתאימים</p>
+</div>
+<div class="game-card" onclick="playGame('matching')">
+<div class="game-icon">🎯</div>
+<h3>התאמת מילים</h3>
+<p>התאם מילים לתמונות</p>
+</div>
+<div class="game-card" onclick="playGame('spelling')">
+<div class="game-icon">✍️</div>
+<h3>משחק איות</h3>
+<p>כתוב את המילה הנכונה</p>
+</div>
+<div class="game-card" onclick="playGame('listening')">
+<div class="game-icon">👂</div>
+<h3>משחק הקשבה</h3>
+<p>שמע וזהה את המילה</p>
+</div>
+<div class="game-card" onclick="playGame('quiz')">
+<div class="game-icon">❓</div>
+<h3>חידון מילים</h3>
+<p>בחר את התשובה הנכונה</p>
+</div>
+<div class="game-card" onclick="playGame('bingo')">
+<div class="game-icon">🎲</div>
+<h3>בינגו מילים</h3>
+<p>השלם את הטבלה</p>
+</div>
+</div>
+</div>
+<script>
+function playGame(type) {
+const games = {
+memory: "🧠 משחק זיכרון מתחיל!\n16 כרטיסיות עם 8 זוגות למציאה.",
+matching: "🎯 התאמת מילים מתחילה!\nגרור מילים לתמונות המתאימות.",
+spelling: "✍️ משחק איות מתחיל!\n10 מילים לאיות נכון.",
+listening: "👂 משחק הקשבה מתחיל!\nשמע ובחר את התמונה הנכונה.",
+quiz: "❓ חידון מילים מתחיל!\n15 שאלות עם 4 אפשרויות.",
+bingo: "🎲 בינגו מילים מתחיל!\nהשלם שורה או עמודה!"
+};
+alert(games[type]);
+}
+</script>
+</body>
+</html>

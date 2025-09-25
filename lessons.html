@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>שיעורים - ABC English Explorer</title>
+<style>
+body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #4FC3F7, #29B6F6); color: white; margin: 0; padding: 20px; }
+.container { max-width: 1000px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 3rem; }
+.lessons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+.lesson-card { background: rgba(255,255,255,0.15); padding: 2rem; border-radius: 15px; cursor: pointer; transition: transform 0.3s; }
+.lesson-card:hover { transform: translateY(-5px); }
+.lesson-icon { font-size: 3rem; margin-bottom: 1rem; }
+.progress-bar { background: rgba(255,255,255,0.2); height: 8px; border-radius: 4px; margin-top: 1rem; }
+.progress-fill { background: #4CAF50; height: 100%; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>📚 שיעורים אינטראקטיביים</h1>
+<p>בחר שיעור ותתחיל ללמוד!</p>
+<button onclick="window.location.href='index.html'" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer;">🏠 חזור לבית</button>
+</div>
+<div class="lessons-grid">
+<div class="lesson-card" onclick="startLesson(1)">
+<div class="lesson-icon">🍎</div>
+<h3>שיעור 1: אותיות A-C</h3>
+<p>Apple, Ball, Cat</p>
+<div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+</div>
+<div class="lesson-card" onclick="startLesson(2)">
+<div class="lesson-icon">🐕</div>
+<h3>שיעור 2: אותיות D-F</h3>
+<p>Dog, Egg, Fish</p>
+<div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div>
+</div>
+<div class="lesson-card" onclick="startLesson(3)">
+<div class="lesson-icon">🎁</div>
+<h3>שיעור 3: אותיות G-I</h3>
+<p>Gift, Hat, Ice</p>
+<div class="progress-bar"><div class="progress-fill" style="width: 60%;"></div></div>
+</div>
+<div class="lesson-card" onclick="startLesson(4)">
+<div class="lesson-icon">🦘</div>
+<h3>שיעור 4: אותיות J-L</h3>
+<p>Jump, Key, Lion</p>
+<div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+</div>
+<div class="lesson-card" onclick="startLesson(5)">
+<div class="lesson-icon">🌙</div>
+<h3>שיעור 5: אותיות M-O</h3>
+<p>Moon, Net, Orange</p>
+<div class="progress-bar"><div class="progress-fill" style="width: 20%;"></div></div>
+</div>
+<div class="lesson-card" onclick="startLesson(6)">
+<div class="lesson-icon">🐧</div>
+<h3>שיעור 6: אותיות P-R</h3>
+<p>Penguin, Queen, Rain</p>
+<div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+</div>
+</div>
+</div>
+<script>
+function startLesson(num) {
+alert("🚀 שיעור " + num + " מתחיל!\n\nישנם " + (num * 3) + " מילים חדשות לללמוד.\nמוכן להתחיל?");
+}
+</script>
+</body>
+</html>
