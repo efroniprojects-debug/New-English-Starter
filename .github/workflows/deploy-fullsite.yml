@@ -1,0 +1,238 @@
+name: Deploy ABC Explorer — Full Site (6 Grades, Content & Games)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  fullsite:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cleanup
+        run: |
+          rm -rf * .github || true
+          mkdir -p .github/workflows
+
+      - name: Create content-pack.js
+        run: |
+          cat > content-pack.js << 'EOF'
+          window.ABC_CONTENT_PACK = {
+            levels: ["A","B","C","D","E","F"],
+            unitsPerLevel: 3,
+            vocabPerUnit: 10,
+            units: {
+              A: {
+                1:["cat","dog","bird","fish","mouse","rabbit","horse","cow","duck","goat"],
+                2:["red","blue","green","yellow","black","white","pink","orange","brown","purple"],
+                3:["mom","dad","sister","brother","baby","grandma","grandpa","aunt","uncle","family"]
+              },
+              B: {
+                1:["table","desk","chair","window","floor","wall","door","board","computer","pencil"],
+                2:["sun","moon","star","cloud","rain","snow","wind","sky","tree","flower"],
+                3:["happy","sad","angry","tired","hungry","thirsty","healthy","sick","brave","smart"]
+              },
+              C: {
+                1:["car","bus","bike","train","plane","boat","truck","motorcycle","road","street"],
+                2:["shirt","pants","shoes","socks","hat","dress","jacket","coat","scarf","gloves"],
+                3:["apple","banana","orange","grape","peach","cherry","lemon","watermelon","plum","pear"]
+              },
+              D: {
+                1:["morning","noon","evening","night","today","yesterday","tomorrow","week","month","year"],
+                2:["game","toy","ball","doll","puzzle","cards","blocks","book","story","letter"],
+                3:["jump","run","walk","swim","dance","sing","play","ride","climb","fly"]
+              },
+              E: {
+                1:["water","juice","milk","tea","coffee","bread","cheese","egg","meat","rice"],
+                2:["school","teacher","student","classroom","lesson","homework","test","grade","library","playground"],
+                3:["friend","boy","girl","child","person","neighbor","visitor","guest","stranger","relative"]
+              },
+              F: {
+                1:["computer","mouse","keyboard","screen","phone","tablet","internet","website","email","game"],
+                2:["city","village","farm","mountain","river","sea","ocean","forest","park","garden"],
+                3:["help","please","sorry","thank you","welcome","goodbye","yes","no","wait","hurry"]
+              }
+            }
+          };
+          EOF
+
+      - name: Create profile.js
+        run: |
+          cat > profile.js << 'EOF'
+          window.PROFILE={username:"user",avatar:"avatar1.png",level:"A",xp:100,rewards:[]};
+          EOF
+
+      - name: Create avatars.js
+        run: |
+          cat > avatars.js << 'EOF'
+          window.AVATARS=["avatar1.png","avatar2.png"];
+          EOF
+
+      - name: Create rewards.js
+        run: |
+          cat > rewards.js << 'EOF'
+          window.REWARDS=[
+            {id:"star",name:"⭐",desc:"כוכב זהב",price:10},
+            {id:"bg1",name:"רקע יער",desc:"",price:15}
+          ];
+          EOF
+
+      - name: Create games/memory.js
+        run: |
+          mkdir -p games
+          cat > games/memory.js << 'EOF'
+          window.GAMES=window.GAMES||{};
+          window.GAMES.memory=function(level,unit){
+            alert('🧠 Memory! מילים: '+window.ABC_CONTENT_PACK.units[level][unit].join(", "));
+          }
+          EOF
+
+      - name: Create games/quiz.js
+        run: |
+          cat > games/quiz.js << 'EOF'
+          window.GAMES=window.GAMES||{};
+          window.GAMES.quiz=function(level,unit){
+            alert('❓ Quiz - מילים: '+window.ABC_CONTENT_PACK.units[level][unit].join(", "));
+          }
+          EOF
+
+      - name: Create games/match.js
+        run: |
+          cat > games/match.js << 'EOF'
+          window.GAMES=window.GAMES||{};
+          window.GAMES.match=function(level,unit){
+            alert('🎯 התאמה! (Demo)');
+          }
+          EOF
+
+      - name: Create backup.js
+        run: |
+          cat > backup.js << 'EOF'
+          window.BACKUP={export:()=>JSON.stringify(window.PROFILE)};
+          EOF
+
+      - name: Create avatars images
+        run: |
+          wget https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png -O avatar1.png
+          wget https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png -O avatar2.png
+
+      - name: Create style.css
+        run: |
+          cat > style.css << 'EOF'
+          body { background: #f5f6fb; color: #2a2d31; font-family: Arial,sans-serif; }
+          .main { max-width: 850px; margin: 40px auto; padding:36px; background:#fff; border-radius:18px; box-shadow:0 0 24px #dfe;}
+          h1 { color: #0563bb; text-align:center; margin-bottom:1em;}
+          .avatar { border-radius:50%; width:90px; box-shadow:0 2px 8px #cdf;}
+          .btn { background:#0563bb; color:#fff; padding:0.7em 2em; border-radius:14px; font-weight:bold; border:none; margin:0.5em; cursor:pointer;}
+          .btn:active{background:#044c8b;}
+          .unit-box { border:1px solid #cfd8dc; border-radius:8px; margin:1.5em 0; padding:1em; background:#f5faff;}
+          .reward {display:inline-block;padding:8px 22px; background:#faf9fb; margin:6px; border-radius:22px;}
+          EOF
+
+      - name: Create index.html
+        run: |
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="he" dir="rtl">
+          <head>
+            <meta charset="UTF-8">
+            <title>ABC Explorer - אתר מלא 6 כיתות</title>
+            <link rel="stylesheet" href="style.css">
+            <script src="content-pack.js"></script>
+            <script src="profile.js"></script>
+            <script src="avatars.js"></script>
+            <script src="rewards.js"></script>
+            <script src="games/memory.js"></script>
+            <script src="games/quiz.js"></script>
+            <script src="games/match.js"></script>
+            <script src="backup.js"></script>
+          </head>
+          <body>
+            <div class="main" id="main"></div>
+            <script>
+            function renderClasses(){
+              let h='<h1>ABC Explorer — בחר כיתה</h1>';
+              h+=window.ABC_CONTENT_PACK.levels.map(l=>
+                `<button class='btn' onclick="startClass('${l}')">${l}</button>`
+              ).join(' ');
+              h+=`<hr><button class='btn' onclick='showProfile()'>🙍 פרופיל</button>`
+              document.getElementById('main').innerHTML=h;
+            }
+            function startClass(l){
+              let u=window.ABC_CONTENT_PACK.units[l];
+              let html=`<h2>כיתה ${l} — בחר יחידת למידה</h2>`;
+              for(let k in u){
+                html+=`<div class='unit-box'><b>יחידה ${k}</b>: ${u[k].join(", ")}<br>
+                  <button class='btn' onclick="GAMES.memory('${l}','${k}')">🧠 Memory</button>
+                  <button class='btn' onclick="GAMES.quiz('${l}','${k}')">❓ Quiz</button>
+                  <button class='btn' onclick="GAMES.match('${l}','${k}')">🎯 התאמה</button>
+                </div>`;
+              }
+              html+=`<button class='btn' onclick='renderClasses()'>חזור</button>`;
+              document.getElementById('main').innerHTML=html;
+            }
+            function showProfile(){
+              let h='<h2>פרופיל משתמש</h2>';
+              h+=`<img class='avatar' src='${window.PROFILE.avatar}'>
+                <div>שם: ${window.PROFILE.username}</div>
+                <div>XP: ${window.PROFILE.xp}</div>
+                <div>רמה: ${window.PROFILE.level}</div><hr>`;
+              h+='<b>החלף אווטאר:</b><br>';
+              window.AVATARS.forEach(im=> {
+                h+=`<img src='${im}' width="60" class="avatar" style="margin:8px;cursor:pointer" onclick="setAvatar('${im}')">`
+              });
+              h+='<hr><b>פרסים שלי:</b><div>';
+              window.PROFILE.rewards.forEach(rid=>{
+                let r=window.REWARDS.find(x=>x.id==rid);
+                h+=r?`<span class='reward'>${r.name}</span>`:'';
+              });
+              h+='</div><hr><h3>חנות פרסים</h3>';
+              window.REWARDS.forEach(r=>{
+                h+=`<div>${r.name} (${r.price} XP) <button class='btn' onclick="getReward('${r.id}')">קנה</button></div>`;
+              });
+              h+=`<hr><button class='btn' onclick='renderClasses()'>דף כיתות</button>`;
+              h+=`<button class='btn' onclick="alert(BACKUP.export())">📥 ייצוא פרופיל</button>`;
+              document.getElementById('main').innerHTML=h;
+            }
+            function getReward(rid){
+              let r=window.REWARDS.find(x=>x.id==rid);
+              if(window.PROFILE.xp>=r.price){
+                alert('קנית '+r.name);
+                window.PROFILE.xp-=r.price;window.PROFILE.rewards.push(rid);showProfile();
+              }else{
+                alert('צריך עוד XP');
+              }
+            }
+            function setAvatar(im){
+              window.PROFILE.avatar=im; showProfile();
+            }
+            window.GAMES=window.GAMES||{};
+            renderClasses();
+            </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Github Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact for Github Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to Github Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
