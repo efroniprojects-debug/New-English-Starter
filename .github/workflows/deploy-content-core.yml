@@ -30,6 +30,10 @@ jobs:
           rm -rf * .github || true
           mkdir -p .github/workflows
 
+      - name: Create public directory
+        run: |
+          mkdir -p public
+
       - name: Generate content-pack.js (core content export)
         run: |
           cat > public/content-pack.js << 'EOF'
