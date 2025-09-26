@@ -1,0 +1,40 @@
+{
+  "id": "A23",
+  "title": "יחידה A23 - מילים בסיסיות",
+  "level": "A",
+  "grade": 1,
+  "ageGroup": "6-7",
+  "theme": "משפחה ובריאות",
+  "duration": "20-25 דקות",
+  "difficulty": "בסיסי",
+  "objectives": [
+    "לימוד 12 מילים בסיסיות",
+    "הכרת הצלילים והגייה נכונה",
+    "זיהוי חזותי של המילים",
+    "שימוש במילים במשפטים פשוטים"
+  ],
+  "vocabulary": [
+    {"word": "hello", "hebrew": "שלום", "phonetic": "הֶלוֹ", "audio": "hello.mp3"},
+    {"word": "goodbye", "hebrew": "להתראות", "phonetic": "גוּדבַיי", "audio": "goodbye.mp3"},
+    {"word": "mom", "hebrew": "אמא", "phonetic": "מום", "audio": "mom.mp3"},
+    {"word": "dad", "hebrew": "אבא", "phonetic": "דַד", "audio": "dad.mp3"},
+    {"word": "family", "hebrew": "משפחה", "phonetic": "פַמילִי", "audio": "family.mp3"},
+    {"word": "baby", "hebrew": "תינוק", "phonetic": "בֵיבִי", "audio": "baby.mp3"},
+    {"word": "sister", "hebrew": "אחות", "phonetic": "סִיסטֵר", "audio": "sister.mp3"},
+    {"word": "brother", "hebrew": "אח", "phonetic": "ברַדֵר", "audio": "brother.mp3"},
+    {"word": "please", "hebrew": "בבקשה", "phonetic": "פְליז", "audio": "please.mp3"},
+    {"word": "thank you", "hebrew": "תודה", "phonetic": "ת'ֶנק יוּ", "audio": "thanks.mp3"},
+    {"word": "yes", "hebrew": "כן", "phonetic": "יֶס", "audio": "yes.mp3"},
+    {"word": "no", "hebrew": "לא", "phonetic": "נוֹ", "audio": "no.mp3"}
+  ],
+  "activities": [
+    {"type": "listen_repeat", "title": "הקשב וחזור", "points": 10},
+    {"type": "match_image", "title": "התאם תמונה", "points": 20},
+    {"type": "memory_game", "title": "משחק זיכרון", "points": 30},
+    {"type": "pronunciation", "title": "בדיקת הגייה", "points": 25}
+  ],
+  "assessment": {
+    "passScore": 80,
+    "totalQuestions": 10
+  }
+}

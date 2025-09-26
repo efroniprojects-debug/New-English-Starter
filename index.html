@@ -66,3 +66,26 @@ console.log('🚀 ABC English Explorer Ready!');
 </script>
 </body>
 </html>
+
+<script src="/js/learning/learning-manager.js"></script>
+<script src="/js/learning/progress-tracker.js"></script>
+<script>
+// Initialize learning system
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof LearningManager !== 'undefined') {
+    window.learningManager = new LearningManager();
+    window.progressTracker = new ProgressTracker();
+    console.log('🎓 Learning system with 192 units ready!');
+  }
+});
+
+// Enhanced learning dashboard
+function showLearningDashboard() {
+  if (window.progressTracker) {
+    const report = window.progressTracker.generateReport();
+    alert('🎓 מערכת הלמידה המקצועית!\n\n📚 192 יחידות לימוד זמינות:\n• רמה A: 32 יחידות (כיתה א)\n• רמה B: 32 יחידות (כיתה ב)\n• רמה C: 32 יחידות (כיתה ג)\n• רמה D: 32 יחידות (כיתה ד)\n• רמה E: 32 יחידות (כיתה ה)\n• רמה F: 32 יחידות (כיתה ו)\n\n📊 ההתקדמות שלך:\n✅ יחידות שהושלמו: ' + report.totalUnits + '\n⭐ ציון כולל: ' + report.totalScore + '\n📈 דיוק ממוצע: ' + report.accuracy + '%\n\n🚀 פלטפורמת למידה מקצועית מלאה!');
+  } else {
+    alert('🎓 מערכת הלמידה המקצועית!\n\n📚 192 יחידות לימוד מקצועיות:\n\n🎯 רמה A (כיתה א): 32 יחידות\n• משפחה, צבעים, מספרים\n• 12 מילים ליחידה\n• פעילויות אינטראקטיביות\n\n🎯 רמה B (כיתה ב): 32 יחידות\n• בית ספר, חברים, פעילויות\n• משפטים פשוטים\n• קריאת סיפורים\n\n🎯 רמות C-F (כיתות ג-ו): 96 יחידות\n• דקדוק מתקדם\n• ספרות וכתיבה\n• מצגות ודיונים\n\n🌟 פלטפורמה מקצועית מלאה!');
+  }
+}
+</script>

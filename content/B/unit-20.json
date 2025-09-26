@@ -1,0 +1,23 @@
+{
+  "id": "B20",
+  "title": "יחידה B20 - בית ספר וחברים",
+  "level": "B",
+  "grade": 2,
+  "ageGroup": "7-8",
+  "theme": "בית ספר וחברים",
+  "duration": "25-30 דקות",
+  "difficulty": "בסיסי-בינוני",
+  "vocabulary": [
+    {"word": "school", "hebrew": "בית ספר", "phonetic": "סקוּל"},
+    {"word": "teacher", "hebrew": "מורה", "phonetic": "טִיצ'ֵר"},
+    {"word": "friend", "hebrew": "חבר", "phonetic": "פרֵנד"},
+    {"word": "book", "hebrew": "ספר", "phonetic": "בוּק"},
+    {"word": "pen", "hebrew": "עט", "phonetic": "פֶן"},
+    {"word": "student", "hebrew": "תלמיד", "phonetic": "סטוּדֵנט"}
+  ],
+  "activities": [
+    {"type": "vocabulary_builder", "title": "בונה מילים", "points": 15},
+    {"type": "sentence_maker", "title": "יוצר משפטים", "points": 25},
+    {"type": "story_reading", "title": "קריאת סיפור", "points": 35}
+  ]
+}
