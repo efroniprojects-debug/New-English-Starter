@@ -1,0 +1,80 @@
+name: Deploy Content Pack and Core Structure
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-content-core:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Remove old project files
+        run: |
+          rm -rf * .github || true
+          mkdir -p .github/workflows
+
+      - name: Generate content-pack.js (core content export)
+        run: |
+          cat > public/content-pack.js << 'EOF'
+          // ABC English Explorer — Full Content Pack (modular)
+          window.ABC_CONTENT_PACK = {
+            meta: {
+              name: "ABC Content Pack - Phases",
+              author: "Team Auto",
+              generatedAt: new Date().toISOString()
+            },
+            levels: ["A", "B", "C", "D", "E", "F"],
+            unitsPerLevel: 32,
+            vocabPerUnit: 12,
+            units: {
+              A: { 1: ["hello", "hi", "bye", "yes", "no", "cat", "dog", "mom", "dad", "red", "blue", "green"] },
+              B: { 1: ["smart", "funny", "kind", "strong", "brave", "think", "talk", "math", "read", "book", "pen", "paper"] }
+              // ... מלא לפי מפרט...
+            }
+          };
+          EOF
+
+      - name: Create index.html (placeholder only)
+        run: |
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="he" dir="rtl">
+          <head>
+            <meta charset="UTF-8">
+            <title>ABC English Explorer - Content Ready</title>
+            <script src="public/content-pack.js"></script>
+          </head>
+          <body>
+            <h1>בדיקת Deploy: התשתית מוכנה וה-content-pack.js מוטען בהצלחה!</h1>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Github Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact for Github Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to Github Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
