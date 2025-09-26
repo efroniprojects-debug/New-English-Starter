@@ -1,0 +1,141 @@
+name: Deploy Profile, Avatar, Rewards & Backup
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-profile-rewards:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Remove old project files
+        run: |
+          rm -rf * .github || true
+          mkdir -p .github/workflows
+
+      - name: Create folders for profile, avatar, rewards
+        run: |
+          mkdir -p public/profile public/avatar public/rewards public/images/backups
+
+      - name: Create profile.js (user/profile logic)
+        run: |
+          cat > public/profile/profile.js << 'EOF'
+          // Profile logic: user info, progress, gibon/yevo
+          window.PROFILE = {
+            username: "ילד1",
+            achievements: [],
+            score: 0,
+            level: "A",
+            avatar: "avatar-default.png",
+            rewardsOwned: [],
+            backup: null // placeholder for backup data
+          }
+          EOF
+
+      - name: Create avatar.js (avatar logic)
+        run: |
+          cat > public/avatar/avatar.js << 'EOF'
+          // Avatar system: style/gifts/shop integration
+          window.AVATAR = {
+            current: "avatar-default.png",
+            styles: ["avatar-default.png", "avatar-boy.png", "avatar-girl.png"],
+            shop: [
+              {id: "hat1", type: "hat", price: 20},
+              {id: "shirt1", type: "shirt", price: 30}
+            ],
+            inventory: []
+          }
+          EOF
+
+      - name: Create rewards.js (virtual rewards shop)
+        run: |
+          cat > public/rewards/rewards.js << 'EOF'
+          // Rewards / shop logic
+          window.REWARDS = [
+            {id: "star", name: "כוכב זהב", cost: 15, img: "star.png"},
+            {id: "pet-cat", name: "חתול וירטואלי", cost: 50, img: "cat.png"},
+            {id: "bg-forest", name: "רקע יער", cost: 25, img: "forest.png"}
+          ];
+          EOF
+
+      - name: Create backup.js (import/export/backup logic)
+        run: |
+          cat > public/profile/backup.js << 'EOF'
+          // Backup / Import / Export logic (future server)
+          window.BACKUP = {
+            export: function() {
+              if(window.PROFILE) return JSON.stringify(window.PROFILE);
+              return "{}";
+            },
+            import: function(json) {
+              try { window.PROFILE = JSON.parse(json); } catch(e){}
+            }
+          }
+          EOF
+
+      - name: Create index.html (profile, avatar, rewards showcase)
+        run: |
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="he" dir="rtl">
+          <head>
+            <meta charset="UTF-8">
+            <title>ABC Explorer - Profile & Rewards</title>
+            <script src="public/profile/profile.js"></script>
+            <script src="public/avatar/avatar.js"></script>
+            <script src="public/rewards/rewards.js"></script>
+            <script src="public/profile/backup.js"></script>
+          </head>
+          <body>
+            <h2>מערכת פרופיל, אווטאר וחנות פרסים</h2>
+            <div id="avatar"></div>
+            <script>
+              var avatarImg = document.createElement('img');
+              avatarImg.src = "public/avatar/" + window.AVATAR.current;
+              avatarImg.style.width="110px";avatarImg.style.borderRadius="50%";
+              document.getElementById("avatar").appendChild(avatarImg);
+            </script>
+            <h3>גיבוי פרופיל ▼</h3>
+            <button onclick="alert(window.BACKUP.export())">ייצוא נתוני משתמש</button>
+            <h3>חנות פרסים</h3>
+            <ul>
+              <script>
+                window.REWARDS.forEach(function(item){
+                  document.write('<li>' + item.name + ' (' + item.cost + ' נקודות)</li>');
+                });
+              </script>
+            </ul>
+            <h3>קניית פרסים לדוג׳ (קונספט):</h3>
+            <button onclick="window.PROFILE.rewardsOwned.push(window.REWARDS[0].id);alert('קיבלת: '+window.REWARDS[0].name)">קבל כוכב זהב!</button>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Github Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact for Github Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to Github Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
