@@ -1,0 +1,1219 @@
+name: 🎯 ABC Explorer - Manual Deploy Only
+
+# ⚠️ רק הפעלה ידנית - אין push או triggers אוטומטיים!
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: '✅ אישור הפעלה (כתוב "deploy" כדי להמשיך)'
+        required: true
+        default: 'לא'
+      deploy_note:
+        description: '📝 הערה על הפריסה (אופציונלי)'
+        required: false
+        default: 'עדכון ידני'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# 🚫 מונע ריצות כפולות לחלוטין
+concurrency:
+  group: manual-deploy-only
+  cancel-in-progress: true
+
+jobs:
+  manual-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    # ✋ עצירת ביטחון - רק אם המשתמש אישר
+    if: github.event.inputs.confirmation == 'deploy'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: 🔐 אימות הפעלה ידנית
+        run: |
+          echo "🎯 הפעלה ידנית מאושרת!"
+          echo "👤 מופעל על ידי: ${{ github.actor }}"
+          echo "⏰ זמן הפעלה: $(date '+%d/%m/%Y %H:%M:%S')"
+          echo "📝 הערה: ${{ github.event.inputs.deploy_note }}"
+          echo "🔢 Run ID: ${{ github.run_id }}"
+          echo ""
+          echo "🚀 מתחיל פריסה מלאה של ABC Explorer..."
+
+      - name: 🧹 ניקוי מוחלט
+        run: |
+          echo "🗑️ מנקה קבצים ישנים..."
+          rm -rf * .* 2>/dev/null || true
+          mkdir -p .github/workflows
+          echo "✅ ניקוי הושלם"
+
+      - name: 🎨 יצירת עיצוב CSS מתקדם
+        run: |
+          cat > style.css << 'ENDCSS'
+          /* ABC English Explorer - עיצוב מלא */
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          
+          :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --error-color: #f44336;
+            --info-color: #2196F3;
+            --border-radius: 15px;
+            --shadow-light: 0 5px 15px rgba(0,0,0,0.1);
+            --shadow-medium: 0 10px 30px rgba(0,0,0,0.15);
+            --shadow-heavy: 0 20px 40px rgba(0,0,0,0.2);
+          }
+          
+          body {
+            background: var(--primary-gradient);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+            color: #2c3e50;
+            direction: rtl;
+            min-height: 100vh;
+            line-height: 1.6;
+          }
+          
+          .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.98);
+            min-height: 100vh;
+            box-shadow: var(--shadow-heavy);
+            position: relative;
+            overflow-x: hidden;
+          }
+          
+          /* כותרת ראשית */
+          .main-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 30px;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .main-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+              45deg,
+              transparent,
+              transparent 10px,
+              rgba(255,255,255,0.05) 10px,
+              rgba(255,255,255,0.05) 20px
+            );
+            animation: slideBackground 10s linear infinite;
+          }
+          
+          @keyframes slideBackground {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+          }
+          
+          .main-header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+          }
+          
+          .stats-banner {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 25px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
+          }
+          
+          .stats-banner h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+          }
+          
+          /* רשת הכיתות */
+          .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+          }
+          
+          .grade-card {
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            box-shadow: var(--shadow-light);
+          }
+          
+          .grade-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: inherit;
+          }
+          
+          .grade-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(255,255,255,0.8);
+          }
+          
+          .grade-card:hover::before {
+            opacity: 1;
+          }
+          
+          .grade-card .icon {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+          }
+          
+          .grade-card h2 {
+            font-size: 2.2rem;
+            margin: 20px 0;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+          }
+          
+          .grade-card p {
+            font-size: 1.1rem;
+            margin: 15px 0;
+            position: relative;
+            z-index: 2;
+          }
+          
+          .grade-stats {
+            background: rgba(255,255,255,0.25);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+          }
+          
+          .grade-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: center;
+          }
+          
+          .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            line-height: 1;
+          }
+          
+          .stat-label {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            opacity: 0.9;
+          }
+          
+          /* כפתורי ניווט */
+          .nav-buttons {
+            text-align: center;
+            margin: 40px 0;
+          }
+          
+          .btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+          }
+          
+          .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+          }
+          
+          .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+          }
+          
+          .btn:hover::before {
+            width: 300px;
+            height: 300px;
+          }
+          
+          .btn:active {
+            transform: translateY(-1px);
+          }
+          
+          .btn span {
+            position: relative;
+            z-index: 2;
+          }
+          
+          .btn.back-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+          }
+          
+          .btn.success-btn {
+            background: linear-gradient(135deg, var(--success-color), #45a049);
+          }
+          
+          .btn.warning-btn {
+            background: linear-gradient(135deg, var(--warning-color), #f57c00);
+          }
+          
+          /* יחידות לימוד */
+          .units-container {
+            display: grid;
+            gap: 25px;
+            margin: 40px 0;
+          }
+          
+          .unit-card {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .unit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102,126,234,0.1), transparent);
+            transition: left 0.5s ease;
+          }
+          
+          .unit-card:hover {
+            border-color: #667eea;
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-5px);
+          }
+          
+          .unit-card:hover::before {
+            left: 100%;
+          }
+          
+          .unit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e2e8f0;
+            position: relative;
+          }
+          
+          .unit-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+          }
+          
+          .unit-description {
+            color: #64748b;
+            font-size: 1rem;
+          }
+          
+          .unit-status {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+          }
+          
+          .unit-status.completed {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+          }
+          
+          .unit-status.pending {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            color: #856404;
+          }
+          
+          /* רשת מילים */
+          .words-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin: 25px 0;
+          }
+          
+          .word-item {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 15px 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            border: 1px solid #90caf9;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .word-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.3s ease;
+          }
+          
+          .word-item:hover {
+            background: linear-gradient(135deg, #bbdefb, #90caf9);
+            transform: scale(1.08);
+            box-shadow: var(--shadow-light);
+          }
+          
+          .word-item:hover::before {
+            left: 100%;
+          }
+          
+          .word-text {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+          }
+          
+          .word-number {
+            font-size: 0.8rem;
+            color: #546e7a;
+            opacity: 0.8;
+          }
+          
+          /* כפתורי משחקים */
+          .games-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 25px;
+          }
+          
+          .game-btn {
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            margin: 0;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+          }
+          
+          /* התראות */
+          .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 2000;
+            background: var(--success-color);
+            color: white;
+            padding: 18px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            font-weight: 600;
+            max-width: 350px;
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+          }
+          
+          .notification.show {
+            transform: translateX(0);
+          }
+          
+          .notification.error {
+            background: var(--error-color);
+          }
+          
+          .notification.warning {
+            background: var(--warning-color);
+          }
+          
+          .notification.info {
+            background: var(--info-color);
+          }
+          
+          /* פרוגרס בר */
+          .progress-bar {
+            background: rgba(255,255,255,0.3);
+            border-radius: 25px;
+            height: 25px;
+            overflow: hidden;
+            margin: 15px 0;
+            position: relative;
+          }
+          
+          .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-radius: inherit;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+          }
+          
+          .progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: progressShine 2s ease-in-out infinite;
+          }
+          
+          @keyframes progressShine {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+          }
+          
+          /* רספונסיבי */
+          @media (max-width: 768px) {
+            .app-container {
+              padding: 15px;
+            }
+            
+            .main-header {
+              padding: 25px 20px;
+            }
+            
+            .main-header h1 {
+              font-size: 2.5rem;
+            }
+            
+            .grades-grid {
+              grid-template-columns: 1fr;
+              gap: 20px;
+            }
+            
+            .grade-card {
+              padding: 25px;
+            }
+            
+            .words-grid {
+              grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+              gap: 8px;
+            }
+            
+            .notification {
+              right: 15px;
+              left: 15px;
+              max-width: none;
+            }
+            
+            .games-buttons {
+              grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .main-header h1 {
+              font-size: 2rem;
+            }
+            
+            .grade-card .icon {
+              font-size: 3.5rem;
+            }
+            
+            .unit-header {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 15px;
+            }
+            
+            .words-grid {
+              grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+            
+            .games-buttons {
+              grid-template-columns: 1fr 1fr;
+            }
+          }
+          
+          /* אנימציות כניסה */
+          .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+          }
+          
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          .slide-in {
+            animation: slideIn 0.5s ease forwards;
+          }
+          
+          @keyframes slideIn {
+            from {
+              opacity: 0;
+              transform: translateX(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+          ENDCSS
+
+      - name: 📱 יצירת תמונות אווטאר
+        run: |
+          # יצירת תמונות פשוטות
+          echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" | base64 -d > avatar1.png
+          echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+fAQAEBAL/QJRZrwAAAABJRU5ErkJggg==" | base64 -d > avatar2.png
+          echo "✅ אווטארים נוצרו"
+
+      - name: 📚 יצירת האתר הראשי (HTML מלא)
+        run: |
+          cat > index.html << 'ENDHTML'
+          <!DOCTYPE html>
+          <html lang="he" dir="rtl">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>ABC English Explorer - פלטפורמה מלאה ללימוד אנגלית</title>
+            <link rel="stylesheet" href="style.css">
+            <meta name="description" content="למד אנגלית בדרך חכמה ומהנה - 6 כיתות, 432 מילים, משחקים אינטראקטיביים">
+          </head>
+          <body>
+            <div class="app-container" id="app-root">
+              <div class="main-header fade-in">
+                <h1>🎓 ABC English Explorer</h1>
+                <div class="stats-banner">
+                  <h3>פלטפורמה מתקדמת ללימוד אנגלית</h3>
+                  <p><strong>נבנה במיוחד עבור כל גילאי הילדים</strong></p>
+                </div>
+              </div>
+              
+              <div class="nav-buttons">
+                <button class="btn" onclick="initializeApp()">
+                  <span>🚀 התחל ללמוד עכשיו</span>
+                </button>
+              </div>
+            </div>
+            
+            <script>
+            // 📚 מסד נתונים מלא - כל התוכן
+            const ABC_COMPLETE_DATA = {
+              metadata: {
+                version: "2.0.0",
+                totalGrades: 6,
+                unitsPerGrade: 6,
+                wordsPerUnit: 12,
+                totalWords: 432,
+                totalUnits: 36,
+                createdAt: new Date().toISOString(),
+                features: ["משחקים אינטראקטיביים", "מערכת נקודות", "פרופיל אישי", "גיבוי נתונים", "הגייה", "התקדמות"]
+              },
+              
+              gradients: {
+                grade1: "linear-gradient(135deg, #FF6B6B, #FF5252)",
+                grade2: "linear-gradient(135deg, #4ECDC4, #26C6DA)",
+                grade3: "linear-gradient(135deg, #45B7D1, #1E88E5)",
+                grade4: "linear-gradient(135deg, #96CEB4, #4CAF50)",
+                grade5: "linear-gradient(135deg, #FFEAA7, #FDCB6E)",
+                grade6: "linear-gradient(135deg, #DDA0DD, #BA68C8)"
+              },
+              
+              grades: {
+                grade1: {
+                  id: "grade1",
+                  name: "כיתה א'",
+                  hebrewLevel: "א'",
+                  icon: "🌟",
+                  description: "צעדים ראשונים באנגלית",
+                  ageRange: "6-7 שנים",
+                  difficulty: "בסיסי",
+                  color: "#FF6B6B",
+                  units: {
+                    1: {
+                      title: "היכרות ומשפחה",
+                      description: "מילים ראשונות לתקשורת בסיסית",
+                      category: "social",
+                      words: ["hello", "hi", "bye", "yes", "no", "mom", "dad", "sister", "brother", "baby", "me", "you"]
+                    },
+                    2: {
+                      title: "צבעים ותכונות",
+                      description: "צבעים בסיסיים ותיאורים פשוטים",
+                      category: "descriptive",
+                      words: ["red", "blue", "green", "yellow", "black", "white", "pink", "orange", "big", "small", "long", "short"]
+                    },
+                    3: {
+                      title: "מספרים וכיוונים",
+                      description: "ספירה בסיסית וכיוונים",
+                      category: "numbers",
+                      words: ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "up", "down"]
+                    },
+                    4: {
+                      title: "רגשות ותחושות",
+                      description: "ביטוי רגשות בסיסי",
+                      category: "emotions",
+                      words: ["happy", "sad", "good", "bad", "hot", "cold", "fast", "slow", "new", "old", "nice", "fun"]
+                    },
+                    5: {
+                      title: "פעולות יומיומיות",
+                      description: "פעולות בסיסיות במהלך היום",
+                      category: "actions",
+                      words: ["eat", "drink", "sleep", "play", "run", "walk", "jump", "sit", "stand", "look", "come", "go"]
+                    },
+                    6: {
+                      title: "חפצים בסביבה",
+                      description: "חפצים מוכרים מהבית והסביבה",
+                      category: "objects",
+                      words: ["book", "pen", "table", "chair", "bed", "door", "window", "cup", "ball", "toy", "bag", "box"]
+                    }
+                  }
+                },
+                
+                grade2: {
+                  id: "grade2", 
+                  name: "כיתה ב'",
+                  hebrewLevel: "ב'",
+                  icon: "🦋",
+                  description: "הרחבת אוצר המילים והכרת העולם",
+                  ageRange: "7-8 שנים",
+                  difficulty: "קל",
+                  color: "#4ECDC4",
+                  units: {
+                    1: {
+                      title: "חיות ובעלי חיים",
+                      description: "הכרת חיות בבית ובטבע",
+                      category: "animals",
+                      words: ["animal", "cat", "dog", "bird", "fish", "horse", "cow", "sheep", "pig", "duck", "rabbit", "elephant"]
+                    },
+                    2: {
+                      title: "טבע וצמחים",
+                      description: "עולם הצמחים והטבע סביבנו",
+                      category: "nature",
+                      words: ["tree", "flower", "grass", "leaf", "garden", "park", "forest", "plant", "water", "soil", "sun", "moon"]
+                    },
+                    3: {
+                      title: "מזג אויר ועונות",
+                      description: "תופעות מזג אויר ועונות השנה",
+                      category: "weather",
+                      words: ["weather", "sunny", "cloudy", "rainy", "snowy", "windy", "hot", "cold", "warm", "cool", "storm", "rainbow"]
+                    },
+                    4: {
+                      title: "מקומות בעיר",
+                      description: "מקומות מוכרים בעיר ובסביבה",
+                      category: "places", 
+                      words: ["city", "street", "house", "school", "store", "park", "hospital", "library", "zoo", "beach", "farm", "airport"]
+                    },
+                    5: {
+                      title: "כלי תחבורה",
+                      description: "אמצעי תחבורה שונים",
+                      category: "transportation",
+                      words: ["car", "bus", "train", "plane", "bike", "boat", "truck", "taxi", "motorcycle", "road", "drive", "fly"]
+                    },
+                    6: {
+                      title: "מזון ומשקאות",
+                      description: "מאכלים ומשקאות בסיסיים",
+                      category: "food",
+                      words: ["food", "bread", "milk", "water", "apple", "banana", "cake", "pizza", "ice", "cookie", "juice", "sandwich"]
+                    }
+                  }
+                },
+                
+                grade3: {
+                  id: "grade3",
+                  name: "כיתה ג'", 
+                  hebrewLevel: "ג'",
+                  icon: "🎓",
+                  description: "בניית משפטים ותקשורת יומיומית",
+                  ageRange: "8-9 שנים",
+                  difficulty: "בינוני-קל",
+                  color: "#45B7D1",
+                  units: {
+                    1: {
+                      title: "משפחה וקרובים",
+                      description: "בני משפחה וקרובים",
+                      category: "family",
+                      words: ["family", "parent", "child", "grandpa", "grandma", "uncle", "aunt", "cousin", "friend", "neighbor", "person", "name"]
+                    },
+                    2: {
+                      title: "בית הספר והלמידה",
+                      description: "סביבת לימודים ופעילויות בבית הספר",
+                      category: "education",
+                      words: ["classroom", "teacher", "student", "lesson", "homework", "test", "pencil", "paper", "desk", "blackboard", "computer", "learn"]
+                    },
+                    3: {
+                      title: "לבוש ואביזרים",
+                      description: "פריטי לבוש ואביזרי אופנה",
+                      category: "clothing",
+                      words: ["clothes", "shirt", "pants", "dress", "shoes", "socks", "hat", "coat", "jacket", "belt", "watch", "glasses"]
+                    },
+                    4: {
+                      title: "זמן ותאריכים",
+                      description: "מושגי זמן, ימים ותאריכים",
+                      category: "time",
+                      words: ["time", "day", "night", "morning", "evening", "week", "month", "year", "today", "tomorrow", "yesterday", "birthday"]
+                    },
+                    5: {
+                      title: "ספורט ופעילויות",
+                      description: "משחקים, ספורט ופעילויות פנויה",
+                      category: "activities",
+                      words: ["sport", "game", "play", "run", "swim", "dance", "sing", "draw", "paint", "read", "write", "listen"]
+                    },
+                    6: {
+                      title: "גוף האדם",
+                      description: "חלקי הגוף הבסיסיים",
+                      category: "body",
+                      words: ["body", "head", "face", "eye", "ear", "nose", "mouth", "hand", "foot", "arm", "leg", "hair"]
+                    }
+                  }
+                },
+                
+                grade4: {
+                  id: "grade4",
+                  name: "כיתה ד'",
+                  hebrewLevel: "ד'", 
+                  icon: "🌱",
+                  description: "שיחות מתקדמות ומושגים מורכבים",
+                  ageRange: "9-10 שנים",
+                  difficulty: "בינוני",
+                  color: "#96CEB4",
+                  units: {
+                    1: {
+                      title: "מקצועות ועבודות",
+                      description: "מקצועות שונים ותחומי עבודה",
+                      category: "professions",
+                      words: ["job", "work", "teacher", "doctor", "nurse", "police", "firefighter", "cook", "driver", "farmer", "artist", "scientist"]
+                    },
+                    2: {
+                      title: "נסיעות ותחבורה",
+                      description: "נסיעות, מסלולים ותחבורה ציבורית",
+                      category: "travel",
+                      words: ["traffic", "street", "road", "bridge", "station", "ticket", "passenger", "driver", "map", "direction", "travel", "journey"]
+                    },
+                    3: {
+                      title: "קניות וכסף",
+                      description: "קניות, מחירים וכסף",
+                      category: "shopping",
+                      words: ["money", "buy", "sell", "price", "cheap", "expensive", "store", "market", "shopping", "customer", "pay", "receipt"]
+                    },
+                    4: {
+                      title: "בריאות ורפואה",
+                      description: "בריאות, רפואה וטיפול רפואי",
+                      category: "health",
+                      words: ["health", "sick", "healthy", "medicine", "doctor", "hospital", "patient", "treatment", "pain", "fever", "nurse", "bandage"]
+                    },
+                    5: {
+                      title: "טכנולוגיה ותקשורת",
+                      description: "מכשירים טכנולוגיים ותקשורת",
+                      category: "technology",
+                      words: ["phone", "computer", "internet", "email", "website", "message", "call", "video", "photo", "camera", "television", "radio"]
+                    },
+                    6: {
+                      title: "חגים וחגיגות",
+                      description: "חגים, מסיבות וחגיגות",
+                      category: "celebrations",
+                      words: ["party", "celebration", "birthday", "gift", "present", "cake", "balloon", "music", "dance", "song", "fun", "joy"]
+                    }
+                  }
+                },
+                
+                grade5: {
+                  id: "grade5",
+                  name: "כיתה ה'",
+                  hebrewLevel: "ה'",
+                  icon: "⭐",
+                  description: "חשיבה מופשטת ודיונים מתקדמים",
+                  ageRange: "10-11 שנים", 
+                  difficulty: "בינוני-מתקדם",
+                  color: "#FFEAA7",
+                  units: {
+                    1: {
+                      title: "רגשות מורכבים",
+                      description: "רגשות מורכבים וביטוי עצמי",
+                      category: "emotions_advanced",
+                      words: ["emotion", "feeling", "excited", "surprised", "worried", "proud", "embarrassed", "confident", "nervous", "curious", "grateful", "disappointed"]
+                    },
+                    2: {
+                      title: "חינוך וידע",
+                      description: "למידה, הוראה והשגת ידע",
+                      category: "learning",
+                      words: ["education", "learn", "study", "knowledge", "skill", "talent", "practice", "improve", "achieve", "success", "goal", "dream"]
+                    },
+                    3: {
+                      title: "חברות וקהילה",
+                      description: "יחסים חברתיים וחיי קהילה",
+                      category: "community",
+                      words: ["friendship", "community", "society", "culture", "tradition", "cooperation", "teamwork", "respect", "kindness", "help", "share", "trust"]
+                    },
+                    4: {
+                      title: "סביבה וטבע",
+                      description: "איכות הסביבה ושמירת הטבע",
+                      category: "environment",
+                      words: ["environment", "nature", "pollution", "recycle", "protect", "conservation", "climate", "season", "ecosystem", "planet", "earth", "green"]
+                    },
+                    5: {
+                      title: "מדע וטכנולוגיה",
+                      description: "מדע, מחקר וטכנולוגיה מתקדמת",
+                      category: "science",
+                      words: ["science", "technology", "invention", "discovery", "experiment", "research", "laboratory", "theory", "fact", "evidence", "result", "conclusion"]
+                    },
+                    6: {
+                      title: "עתיד וחלומות",
+                      description: "תכנון עתיד, שאיפות וחלומות",
+                      category: "future",
+                      words: ["future", "plan", "hope", "wish", "dream", "goal", "ambition", "career", "opportunity", "challenge", "adventure", "possibility"]
+                    }
+                  }
+                },
+                
+                grade6: {
+                  id: "grade6",
+                  name: "כיתה ו'",
+                  hebrewLevel: "ו'",
+                  icon: "🎯",
+                  description: "הכנה לחטיבת הביניים ומושגים מתקדמים",
+                  ageRange: "11-12 שנים",
+                  difficulty: "מתקדם",
+                  color: "#DDA0DD",
+                  units: {
+                    1: {
+                      title: "מנהיגות ואחריות",
+                      description: "מנהיגות, קבלת החלטות ואחריות",
+                      category: "leadership",
+                      words: ["leadership", "responsibility", "decision", "choice", "consequence", "influence", "authority", "control", "management", "organization", "team", "guide"]
+                    },
+                    2: {
+                      title: "יצירתיות ואמנות",
+                      description: "יצירתיות, אמנות וביטוי אמנותי",
+                      category: "creativity",
+                      words: ["creativity", "imagination", "inspiration", "artistic", "design", "beauty", "expression", "performance", "exhibition", "gallery", "museum", "masterpiece"]
+                    },
+                    3: {
+                      title: "תקשורת ושפה",
+                      description: "תקשורת מתקדמת ויכולות שפה",
+                      category: "communication",
+                      words: ["communication", "language", "conversation", "discussion", "argument", "opinion", "agreement", "explanation", "description", "presentation", "speech", "debate"]
+                    },
+                    4: {
+                      title: "כלכלה וחברה",
+                      description: "מושגים כלכליים וחברתיים",
+                      category: "economy",
+                      words: ["economy", "business", "company", "industry", "production", "investment", "profit", "competition", "market", "trade", "development", "growth"]
+                    },
+                    5: {
+                      title: "גלובליזציה ותרבות",
+                      description: "עולם גלובלי ורב תרבותי",
+                      category: "global",
+                      words: ["global", "international", "culture", "diversity", "tolerance", "understanding", "cooperation", "exchange", "communication", "connection", "network", "relationship"]
+                    },
+                    6: {
+                      title: "ערכים ואתיקה",
+                      description: "ערכים מוסריים ואתיקה",
+                      category: "values",
+                      words: ["values", "ethics", "morality", "honesty", "integrity", "justice", "fairness", "equality", "freedom", "dignity", "compassion", "wisdom"]
+                    }
+                  }
+                }
+              }
+            };
+
+            // 👤 פרופיל משתמש מתקדם
+            let userProfile = {
+              personal: {
+                name: "תלמיד מעולה",
+                age: null,
+                preferredGrade: "grade1",
+                avatar: "avatar1.png",
+                joinDate: new Date().toISOString(),
+                lastLogin: new Date().toISOString()
+              },
+              progress: {
+                xp: 0,
+                level: 1,
+                completedUnits: [],
+                currentStreak: 0,
+                longestStreak: 0,
+                totalStudyTime: 0, // בדקות
+                wordsLearned: 0,
+                gamesPlayed: 0,
+                perfectScores: 0
+              },
+              achievements: {
+                unlocked: [],
+                categories: {
+                  learning: [],
+                  gaming: [],
+                  social: [],
+                  special: []
+                }
+              },
+              settings: {
+                soundEnabled: true,
+                notificationsEnabled: true,
+                difficulty: "normal",
+                theme: "default",
+                language: "he"
+              },
+              statistics: {
+                sessionCount: 0,
+                averageSessionTime: 0,
+                favoriteCategory: null,
+                strongestGrade: null,
+                improvementAreas: []
+              }
+            };
+
+            // 🎮 מצב האפליקציה
+            let appState = {
+              isInitialized: false,
+              currentView: 'splash',
+              selectedGrade: null,
+              selectedUnit: null,
+              gameInProgress: false,
+              notifications: [],
+              sessionStartTime: null,
+              autoSaveInterval: null
+            };
+
+            // 🏆 מערכת הישגים מתקדמת
+            const ACHIEVEMENTS_SYSTEM = {
+              learning: [
+                { id: "first_word", name: "🎯 המילה הראשונה", desc: "למדת את המילה הראשונה", xpReward: 10, condition: () => userProfile.progress.wordsLearned >= 1 },
+                { id: "ten_words", name: "🔟 אוצר מילים", desc: "למדת 10 מילים", xpReward: 25, condition: () => userProfile.progress.wordsLearned >= 10 },
+                { id: "first_unit", name: "📖 יחידה ראשונה", desc: "השלמת יחידת לימוד ראשונה", xpReward: 50, condition: () => userProfile.progress.completedUnits.length >= 1 },
+                { id: "grade_master", name: "👑 שליט הכיתה", desc: "השלמת כיתה שלמה", xpReward: 200, condition: () => checkGradeCompletion() },
+                { id: "week_streak", name: "🔥 שבוע רצוף", desc: "7 ימי לימוד רצופים", xpReward: 100, condition: () => userProfile.progress.longestStreak >= 7 },
+                { id: "speed_learner", name: "⚡ לומד מהיר", desc: "השלמת יחידה בפחות מ-10 דקות", xpReward: 75, condition: () => false }, // יתווסף בעתיד
+                { id: "night_owl", name: "🦉 לומד לילה", desc: "למדת אחרי השעה 22:00", xpReward: 30, condition: () => false },
+                { id: "early_bird", name: "🐦 לומד מוקדם", desc: "למדת לפני השעה 07:00", xpReward: 30, condition: () => false }
+              ],
+              gaming: [
+                { id: "first_game", name: "🎮 משחק ראשון", desc: "שיחקת את המשחק הראשון", xpReward: 15, condition: () => userProfile.progress.gamesPlayed >= 1 },
+                { id: "game_master", name: "🏆 מאסטר משחקים", desc: "שיחקת 50 משחקים", xpReward: 150, condition: () => userProfile.progress.gamesPlayed >= 50 },
+                { id: "perfect_score", name: "💯 ציון מושלם", desc: "קיבלת ציון מושלם במשחק", xpReward: 100, condition: () => userProfile.progress.perfectScores >= 1 },
+                { id: "memory_champion", name: "🧠 אלוף זיכרון", desc: "ניצחון ב-10 משחקי זיכרון", xpReward: 80, condition: () => false },
+                { id: "quiz_master", name: "❓ מלך החידונים", desc: "ניצחון ב-15 חידונים", xpReward: 90, condition: () => false }
+              ],
+              special: [
+                { id: "first_day", name: "🎊 יום ראשון", desc: "ברוך הבא ל-ABC Explorer!", xpReward: 20, condition: () => true },
+                { id: "profile_complete", name: "👤 פרופיל מלא", desc: "השלמת את הפרופיל האישי", xpReward: 40, condition: () => userProfile.personal.name !== "תלמיד מעולה" },
+                { id: "backup_expert", name: "💾 מומחה גיבוי", desc: "יצרת גיבוי של ההתקדמות", xpReward: 25, condition: () => false },
+                { id: "explorer", name: "🗺️ חוקר", desc: "ביקרת בכל הכיתות", xpReward: 60, condition: () => checkAllGradesVisited() }
+              ]
+            };
+
+            // 🎨 פונקציות עיצוב ואנימציה
+            function addAnimation(element, animationClass) {
+              if (element) {
+                element.classList.add(animationClass);
+                setTimeout(() => element.classList.remove(animationClass), 600);
+              }
+            }
+
+            function showNotification(message, type = 'success', duration = 3000) {
+              const notification = document.createElement('div');
+              notification.className = `notification ${type}`;
+              notification.textContent = message;
+              
+              document.body.appendChild(notification);
+              
+              // אנימציית כניסה
+              setTimeout(() => notification.classList.add('show'), 100);
+              
+              // אנימציית יציאה
+              setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 400);
+              }, duration);
+              
+              // הוסף להיסטוריית התראות
+              appState.notifications.push({
+                message,
+                type,
+                timestamp: new Date().toISOString()
+              });
+            }
+
+            function createProgressBar(current, total, animated = true) {
+              const percentage = Math.round((current / total) * 100);
+              return `
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: ${animated ? 0 : percentage}%" 
+                       ${animated ? `data-target="${percentage}"` : ''}>
+                  </div>
+                </div>
+                <div style="text-align: center; margin-top: 10px; font-weight: 600;">
+                  ${current}/${total} (${percentage}%)
+                </div>
+              `;
+            }
+
+            // 🚀 אתחול מערכת מלא
+            function initializeApp() {
+              console.log('🚀 מאתחל את ABC Explorer...');
+              
+              // טען נתונים שמורים
+              loadUserData();
+              
+              // הגדר session חדש
+              startSession();
+              
+              // הפעל שמירה אוטומטית
+              setupAutoSave();
+              
+              // בדוק הישגים ראשוניים
+              checkAchievements();
+              
+              // רנדר דף הבית
+              renderHomePage();
+              
+              appState.isInitialized = true;
+              console.log('✅ ABC Explorer מוכן לשימוש!');
+            }
+
+            // 🏠 רינדור דף הבית המלא
+            function renderHomePage() {
+              const totalWords = ABC_COMPLETE_DATA.metadata.totalWords;
+              const completedWords = userProfile.progress.completedUnits.length * 12;
+              const progressPercent = Math.round((completedWords / totalWords) * 100);
+              
+              document.getElementById('app-root').innerHTML = `
+                <div class="main-header fade-in">
+                  <h1>🎓 ABC English Explorer</h1>
+                  <div class="stats-banner">
+                    <h3>📊 ברוך הבא, ${userProfile.personal.name}!</h3>
+                    <p><strong>6 כיתות מלאות</strong> • <strong>36 יחידות</strong> • <strong>${totalWords} מילים</strong></p>
+                    
+                    <div style="margin: 20px 0;">
+                      <h4>ההתקדמות שלך:</h4>
+                      ${createProgressBar(completedWords, totalWords)}
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-top: 20px;">
+                      <div style="text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold;">${userProfile.progress.xp}</div>
+                        <div style="font-size: 0.9rem;">נקודות XP</div>
+                      </div>
+                      <div style="text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold;">${userProfile.progress.level}</div>
+                        <div style="font-size: 0.9rem;">רמה</div>
+                      </div>
+                      <div style="text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold;">${userProfile.progress.currentStreak}</div>
+                        <div style="font-size: 0.9rem;">ימים רצופים</div>
+                      </div>
+                      <div style="text-align: center;">
+                        <div style="font-size: 1.5rem; font-weight: bold;">${userProfile.achievements.unlocked.length}</div>
+                        <div style="font-size: 0.9rem;">הישגים</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grades-grid">
+                  ${Object.entries(ABC_COMPLETE_DATA.grades).map(([gradeId, grade]) => {
+                    const completed = userProfile.progress.completedUnits.filter(u => u.startsWith(gradeId)).length;
+                    const total = Object.keys(grade.units).length;
+                    const gradeProgress = Math.round((completed / total) * 100);
+                    
+                    return `
+                      <div class="grade-card slide-in" 
+                           style="background: ${ABC_COMPLETE_DATA.gradients[gradeId]}; color: white;"
+                           onclick="showGradeDetails('${gradeId}')">
+                        <span class="icon">${grade.icon}</span>
+                        <h2>${grade.name}</h2>
+                        <p>${grade.description}</p>
+                        <p style="font-size: 0.9rem; margin: 8px 0; opacity: 0.9;">
+                          ${grade.ageRange} • ${grade.difficulty}
+                        </p>
+                        
+                        <div class="grade-stats">
+                          <div class="grade-stats-grid">
+                            <div class="stat-item">
+                              <div class="stat-number">${total}</div>
+                              <div class="stat-label">יחידות</div>
+                            </div>
+                            <div class="stat-item">
+                              <div class="stat-number">${total * 12}</div>
+                              <div class="stat-label">מילים</div>
+                            </div>
+                          </div>
+                          
+                          <div style="margin-top: 15px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px;">
+                              <span>התקדמות:</span>
+                              <span>${completed}/${total} (${gradeProgress}%)</span>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.3); border-radius: 10px; height: 8px; overflow: hidden;">
+                              <div style="background: rgba(255,255,255,0.8); width: ${gradeProgress}%; height: 100%; border-radius: inherit; transition: width 0.3
